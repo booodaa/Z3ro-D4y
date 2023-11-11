@@ -311,7 +311,7 @@ if (!isset($_SESSION['Clint_name'])) {
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="img/img/profile.png" alt="Profile" class="rounded-circle">
+              <img src="img/profile.png" alt="Profile" class="rounded-circle">
               <h2><?php echo $_SESSION['Clint_name']; ?></h2>
 
             </div>
