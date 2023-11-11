@@ -226,6 +226,10 @@ if (!isset($_SESSION['Clint_name'])) {
               <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
+                 <a class="nav-link collapsed" href="transaction.php">
+          <img src="img/transaction.png" alt="image load error" width="20" height="25">
+         <span>Transaction</span>
+        </a>
               </a>
             </li>
             <li>
