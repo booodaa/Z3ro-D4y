@@ -49,12 +49,7 @@ if (!isset($_SESSION['Clint_name']) || empty($_SESSION['Clint_name'])) {
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div><!-- End Search Bar -->
+
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -293,10 +288,9 @@ if (!isset($_SESSION['Clint_name']) || empty($_SESSION['Clint_name'])) {
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.php">
-          <img src="img/user.png" alt="image load error" width="16" height="16">
-
-          <span class="element .style">Profile</span>
+      <a class="nav-link " href="users-profile.php">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
         </a>
         <a class="nav-link collapsed" href="transaction.php">
           <img src="img/transaction.png" alt="image load error" width="20" height="25">
