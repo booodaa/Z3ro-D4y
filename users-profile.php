@@ -76,7 +76,7 @@ if (!isset($_SESSION['Clint_name'])) {
         <li class="nav-item dropdown">
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            
+
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -143,8 +143,8 @@ if (!isset($_SESSION['Clint_name'])) {
         <li class="nav-item dropdown">
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-         
-          
+
+
           </a><!-- End Messages Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
@@ -226,10 +226,6 @@ if (!isset($_SESSION['Clint_name'])) {
               <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
-                 <a class="nav-link collapsed" href="transaction.php">
-          <img src="img/transaction.png" alt="image load error" width="20" height="25">
-         <span>Transaction</span>
-        </a>
               </a>
             </li>
             <li>
@@ -251,9 +247,9 @@ if (!isset($_SESSION['Clint_name'])) {
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="login.php">
+              <a class="dropdown-item d-flex align-items-center" href="logout.php">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span>
+                <span>Log out</span>
               </a>
             </li>
 
@@ -277,8 +273,8 @@ if (!isset($_SESSION['Clint_name'])) {
         </a>
       </li><!-- End Dashboard Nav -->
 
-     
-    
+
+
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
@@ -350,7 +346,7 @@ if (!isset($_SESSION['Clint_name'])) {
                     <div class="col-lg-9 col-md-8"><?php echo $_SESSION['Clint_name']; ?></div>
                   </div>
 
-                  
+
 
 
                   <div class="row">
@@ -390,7 +386,7 @@ if (!isset($_SESSION['Clint_name'])) {
                       </div>
                     </div>
 
-                   
+
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
@@ -398,7 +394,7 @@ if (!isset($_SESSION['Clint_name'])) {
 
                 </div>
 
-                
+
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
