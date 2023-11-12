@@ -3,28 +3,28 @@ include("database.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $Clint_name =  htmlspecialchars($_REQUEST['name']); 
-    $Email = htmlspecialchars($_REQUEST['email']);
-    $User_name = htmlspecialchars($_REQUEST['username']);
-    $password = htmlspecialchars($_REQUEST['password']);
-    $terms = htmlspecialchars($_REQUEST['terms']);
-    $hash = password_hash($password, PASSWORD_DEFAULT);
+  $Clint_name =  htmlspecialchars($_REQUEST['name']);
+  $Email = htmlspecialchars($_REQUEST['email']);
+  $User_name = htmlspecialchars($_REQUEST['username']);
+  $password = htmlspecialchars($_REQUEST['password']);
+  $terms = htmlspecialchars($_REQUEST['terms']);
+  $hash = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO `users` (User_name, Clint_name, Email, Password) VALUES ('$User_name', '$Clint_name', '$Email', '$hash')";
-    
-    try {
-        if(mysqli_query($conn, $sql)){
-            echo "Registration successful!"; 
-            header("Location: login.php"); // Redirect to login.php
-            exit();
-        } 
-    } catch (mysqli_sql_exception $e) {
-        if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-            echo "Username already exists. Please choose a different username.";
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        }
+  $sql = "INSERT INTO `users` (User_name, Clint_name, Email, Password) VALUES ('$User_name', '$Clint_name', '$Email', '$hash')";
+
+  try {
+    if (mysqli_query($conn, $sql)) {
+      echo "Registration successful!";
+      header("Location: login.php"); // Redirect to login.php
+      exit();
     }
+  } catch (mysqli_sql_exception $e) {
+    if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+      echo "Username already exists. Please choose a different username.";
+    } else {
+      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+  }
 }
 
 mysqli_close($conn);
@@ -61,7 +61,7 @@ mysqli_close($conn);
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
- 
+
 </head>
 
 <body>
@@ -100,31 +100,31 @@ mysqli_close($conn);
                     <div class="col-12">
                       <label for="yourEmail" class="form-label">Your Email</label>
                       <input type="email" name="email" class="form-control" id="yourEmail" required>
-                   
+
                       <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
-                     
+
                       <div class="input-group has-validation">
-                       
+
                         <input type="text" name="username" class="form-control" id="yourUsername" required>
-                       
+
                         <div class="invalid-feedback">Please choose a username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
-                        <label for="yourPassword" class="form-label">Password</label>
-                        <div class="input-group has-validation">
-                          <input type="password" name="password" class="form-control" id="yourPassword" required>
-                          <div class="input-group-text">
-                            <input type="image" src="img/icons8-show-20.png" onclick="showPassword()">
-                          </div>
-                          <div class="invalid-feedback">Please enter your password!</div>
+                      <label for="yourPassword" class="form-label">Password</label>
+                      <div class="input-group has-validation">
+                        <input type="password" name="password" class="form-control" id="yourPassword" required>
+                        <div class="input-group-text">
+                          <input type="image" src="img/icons8-show-20.png" onclick="showPassword()">
                         </div>
+                        <div class="invalid-feedback">Please enter your password!</div>
                       </div>
+                    </div>
 
                     <div class="col-12">
                       <div class="form-check">
@@ -144,7 +144,7 @@ mysqli_close($conn);
                 </div>
               </div>
 
-            
+
 
             </div>
           </div>
@@ -170,16 +170,16 @@ mysqli_close($conn);
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
-  
+
   <script>
-  function showPassword() {
-    var passwordInput = document.getElementById("yourPassword");
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-    } else {
-      passwordInput.type = "password";
+    function showPassword() {
+      var passwordInput = document.getElementById("yourPassword");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
     }
-  }
   </script>
 </body>
 
