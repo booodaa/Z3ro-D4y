@@ -344,7 +344,6 @@ if (!isset($_SESSION['Clint_name'])) {
           <p id="errorMessage" class="text-danger"></p>
           <p>Recipient ID: <span id="recipientIdModal"></span></p>
           <p>Amount: $<span id="transferAmountModal"></span></p>
-           <p>Name: <span id="transferAmountModal"></span></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -354,72 +353,59 @@ if (!isset($_SESSION['Clint_name'])) {
     </div>
   </div>
 
-
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
- <!-- Vendor JS Files -->
- <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
   <script>
     function validateInputFields() {
-        var isValid = true;
+      var isValid = true;
 
-        var recipientId = document.getElementById("recipId").value;
-        var amount = document.getElementById("amount").value;
+      var recipientId = document.getElementById("recipId").value;
+      var amount = document.getElementById("amount").value;
 
-        if (recipientId.trim() === "" || isNaN(recipientId) || parseInt(recipientId) < 0) {
-            document.getElementById("recipId").classList.add("is-invalid");
-            isValid = false;
-        } else {
-            document.getElementById("recipId").classList.remove("is-invalid");
-        }
+      if (recipientId.trim() === "" || isNaN(recipientId)) {
+        document.getElementById("recipId").classList.add("is-invalid");
+        isValid = false;
 
-        if (amount.trim() === "" || isNaN(amount) || parseFloat(amount) <= 0) {
-            document.getElementById("amount").classList.add("is-invalid");
-            isValid = false;
-        } else {
-            document.getElementById("amount").classList.remove("is-invalid");
-        }
+      } else {
+        document.getElementById("recipId").classList.remove("is-invalid");
+      }
+      if (amount.trim() === "" || isNaN(amount) || parseFloat(amount) <= 0) {
+        document.getElementById("amount").classList.add("is-invalid");
+        isValid = false;
 
-        return isValid;
+      } else {
+        document.getElementById("amount").classList.remove("is-invalid");
+      }
+      return isValid;
     }
 
     function showConfirmationPopup() {
-        if (!validateInputFields()) {
-            // Display an additional error message for negative values
-            alert("Please enter valid positive values for ID and Amount.");
-            return;
-        }
+      if (!validateInputFields()) {
 
-        var recipientId = document.getElementById("recipId").value;
-        var amount = document.getElementById("amount").value;
+        return;
+      }
 
-        document.getElementById("recipientIdModal").innerText = recipientId;
-        document.getElementById("transferAmountModal").innerText = amount;
-        $('#confirmationModal').modal('show');
+
+      var recipientId = document.getElementById("recipId").value;
+      var amount = document.getElementById("amount").value;
+
+      document.getElementById("recipientIdModal").innerText = recipientId;
+      document.getElementById("transferAmountModal").innerText = amount;
+      $('#confirmationModal').modal('show');
+
     }
 
     function submitTransferForm() {
-        if (!validateInputFields()) {
-            // Display an additional error message for negative values
-            alert("Please enter valid positive values for ID and Amount.");
-            return;
-        }
+      if (!validateInputFields()) {
+        return;
+      }
 
-        document.getElementById("transferForm").submit();
+      document.getElementById("transferForm").submit();
     }
-</script>
+  </script>
 
 
 </body>
