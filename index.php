@@ -1,10 +1,8 @@
 <?php
 session_start();
-include("database.php");
-$_SESSION['Clint_name'];
 
-if (!isset($_SESSION['Clint_name'])) {
-  // Redirect to login.php
+if (!isset($_SESSION['Clint_name']) || empty($_SESSION['Clint_name'])) {
+  // Redirect to login.php or any appropriate login page
   header("Location: login.php");
   exit;
 }
@@ -20,16 +18,12 @@ if (!isset($_SESSION['Clint_name'])) {
   <title> Z3ro D4y</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
-  <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -73,7 +67,7 @@ if (!isset($_SESSION['Clint_name'])) {
 
         <li class="nav-item dropdown">
 
-        
+
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <li class="dropdown-header">
@@ -145,7 +139,7 @@ if (!isset($_SESSION['Clint_name'])) {
 
         <li class="nav-item dropdown">
 
-      
+
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
             <li class="dropdown-header">
@@ -209,7 +203,7 @@ if (!isset($_SESSION['Clint_name'])) {
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-         
+
             <img src="img/profile.png" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['Clint_name']; ?></span>
           </a><!-- End Profile Iamge Icon -->
@@ -217,7 +211,7 @@ if (!isset($_SESSION['Clint_name'])) {
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6><?php echo $_SESSION['Clint_name']; ?></h6>
-            
+
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -225,7 +219,7 @@ if (!isset($_SESSION['Clint_name'])) {
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
-               
+
                 <span>My Profile</span>
               </a>
             </li>
@@ -244,16 +238,16 @@ if (!isset($_SESSION['Clint_name'])) {
             </li>
 
             <li>
-             
+
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="login.php">
+              <a class="dropdown-item d-flex align-items-center" href="logout.php">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span>
+                <span>Log out</span>
               </a>
             </li>
 
@@ -278,7 +272,7 @@ if (!isset($_SESSION['Clint_name'])) {
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-       
+
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="charts-chartjs.php">
@@ -300,13 +294,13 @@ if (!isset($_SESSION['Clint_name'])) {
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="users-profile.php">
-        <img src="img/user.png" alt="image load error" width="16" height="16">
+          <img src="img/user.png" alt="image load error" width="16" height="16">
 
-          <span  class="element .style">Profile</span>
+          <span class="element .style">Profile</span>
         </a>
         <a class="nav-link collapsed" href="transaction.php">
           <img src="img/transaction.png" alt="image load error" width="20" height="25">
-         <span>Transaction</span>
+          <span>Transaction</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
@@ -333,14 +327,14 @@ if (!isset($_SESSION['Clint_name'])) {
         <div class="col-lg-8">
           <div class="row">
 
-           
+
 
             <!-- Revenue Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
                 <div class="filter">
-                  
+
                 </div>
 
                 <div class="card-body">
@@ -359,12 +353,12 @@ if (!isset($_SESSION['Clint_name'])) {
               </div>
             </div><!-- End Revenue Card -->
 
-           
+
             <!-- Reports -->
             <div class="col-12">
               <div class="card">
 
-               
+
 
                 <div class="card-body">
                   <h5 class="card-title">Reports <span>/Today</span></h5>
@@ -448,7 +442,7 @@ if (!isset($_SESSION['Clint_name'])) {
                   </ul>
                 </div>
 
-              
+
 
               </div>
             </div><!-- End Recent Sales -->
@@ -567,148 +561,148 @@ if (!isset($_SESSION['Clint_name'])) {
               </ul>
             </div>
 
-           
 
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                    legend: {
-                      data: ['Allocated Budget', 'Actual Spending']
-                    },
-                    radar: {
-                      // shape: 'circle',
-                      indicator: [{
-                          name: 'Sales',
-                          max: 6500
-                        },
-                        {
-                          name: 'Administration',
-                          max: 16000
-                        },
-                        {
-                          name: 'Information Technology',
-                          max: 30000
-                        },
-                        {
-                          name: 'Customer Support',
-                          max: 38000
-                        },
-                        {
-                          name: 'Development',
-                          max: 52000
-                        },
-                        {
-                          name: 'Marketing',
-                          max: 25000
-                        }
-                      ]
-                    },
-                    series: [{
-                      name: 'Budget vs spending',
-                      type: 'radar',
-                      data: [{
-                          value: [4200, 3000, 20000, 35000, 50000, 18000],
-                          name: 'Allocated Budget'
-                        },
-                        {
-                          value: [5000, 14000, 28000, 26000, 42000, 21000],
-                          name: 'Actual Spending'
-                        }
-                      ]
-                    }]
-                  });
+
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
+                  legend: {
+                    data: ['Allocated Budget', 'Actual Spending']
+                  },
+                  radar: {
+                    // shape: 'circle',
+                    indicator: [{
+                        name: 'Sales',
+                        max: 6500
+                      },
+                      {
+                        name: 'Administration',
+                        max: 16000
+                      },
+                      {
+                        name: 'Information Technology',
+                        max: 30000
+                      },
+                      {
+                        name: 'Customer Support',
+                        max: 38000
+                      },
+                      {
+                        name: 'Development',
+                        max: 52000
+                      },
+                      {
+                        name: 'Marketing',
+                        max: 25000
+                      }
+                    ]
+                  },
+                  series: [{
+                    name: 'Budget vs spending',
+                    type: 'radar',
+                    data: [{
+                        value: [4200, 3000, 20000, 35000, 50000, 18000],
+                        name: 'Allocated Budget'
+                      },
+                      {
+                        value: [5000, 14000, 28000, 26000, 42000, 21000],
+                        name: 'Actual Spending'
+                      }
+                    ]
+                  }]
                 });
-              </script>
+              });
+            </script>
 
-            </div>
-          </div><!-- End Budget Report -->
+          </div>
+        </div><!-- End Budget Report -->
 
-          <!-- Website Traffic -->
-         
+        <!-- Website Traffic -->
 
-          
 
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#trafficChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Access From',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
 
-            </div>
-          </div><!-- End Website Traffic -->
 
-          <!-- News & Updates Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
+        <script>
+          document.addEventListener("DOMContentLoaded", () => {
+            echarts.init(document.querySelector("#trafficChart")).setOption({
+              tooltip: {
+                trigger: 'item'
+              },
+              legend: {
+                top: '5%',
+                left: 'center'
+              },
+              series: [{
+                name: 'Access From',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  show: false,
+                  position: 'center'
+                },
+                emphasis: {
+                  label: {
+                    show: true,
+                    fontSize: '18',
+                    fontWeight: 'bold'
+                  }
+                },
+                labelLine: {
+                  show: false
+                },
+                data: [{
+                    value: 1048,
+                    name: 'Search Engine'
+                  },
+                  {
+                    value: 735,
+                    name: 'Direct'
+                  },
+                  {
+                    value: 580,
+                    name: 'Email'
+                  },
+                  {
+                    value: 484,
+                    name: 'Union Ads'
+                  },
+                  {
+                    value: 300,
+                    name: 'Video Ads'
+                  }
+                ]
+              }]
+            });
+          });
+        </script>
 
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
+      </div>
+      </div><!-- End Website Traffic -->
 
-           
+      <!-- News & Updates Traffic -->
+      <div class="card">
+        <div class="filter">
+          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+            <li class="dropdown-header text-start">
+              <h6>Filter</h6>
+            </li>
 
-              </div><!-- End sidebar recent posts-->
+            <li><a class="dropdown-item" href="#">Today</a></li>
+            <li><a class="dropdown-item" href="#">This Month</a></li>
+            <li><a class="dropdown-item" href="#">This Year</a></li>
+          </ul>
+        </div>
 
-            </div>
-          </div><!-- End News & Updates -->
 
-        </div><!-- End Right side columns -->
+
+      </div><!-- End sidebar recent posts-->
+
+      </div>
+      </div><!-- End News & Updates -->
+
+      </div><!-- End Right side columns -->
 
       </div>
     </section>
