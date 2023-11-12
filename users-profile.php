@@ -57,12 +57,7 @@ if (!isset($_SESSION['Clint_name'])) {
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div><!-- End Search Bar -->
+   
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -281,6 +276,10 @@ if (!isset($_SESSION['Clint_name'])) {
         <a class="nav-link " href="users-profile.php">
           <i class="bi bi-person"></i>
           <span>Profile</span>
+          <a class="nav-link collapsed" href="transaction.php">
+      <img src="img/transaction.png" alt="image load error" width="20" height="25">
+      <span>Transaction</span>
+    </a>
         </a>
       </li><!-- End Profile Page Nav -->
 
@@ -292,6 +291,7 @@ if (!isset($_SESSION['Clint_name'])) {
 
     <div class="pagetitle">
       <h1>Profile</h1>
+      
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Home</a></li>
