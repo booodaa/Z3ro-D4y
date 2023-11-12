@@ -1,14 +1,12 @@
 <?php
 session_start();
 include("database.php");
-$_SESSION['Clint_name'];
-
 if (!isset($_SESSION['Clint_name'])) {
-  // Redirect to login.php
   header("Location: login.php");
   exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,15 +18,12 @@ if (!isset($_SESSION['Clint_name'])) {
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -36,118 +31,128 @@ if (!isset($_SESSION['Clint_name'])) {
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
- 
 </head>
 
 <body>
-
   <main>
     <div class="container">
-
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
               <div class="d-flex justify-content-center py-4">
-                <a href="index.php" class="logo d-flex align-items-center w-auto">
+                <a class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
                   <span class="d-none d-lg-block">Z3ro D4y Transaction</span>
                 </a>
-              </div><!-- End Logo -->
-
+              </div>
               <div class="card mb-3">
-
                 <div class="card-body">
-
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Transfer Money</h5>
-                    <p class="text-center small">Enter Data to Transfer  </p>
+                    <p class="text-center small">Enter Data to Transfer</p>
                   </div>
-
-                  <form class="row g-3 needs-validation" novalidate action="login.php" method="post">
-
+                  <form class="row g-3 needs-validation" novalidate action="process_transfer.php" method="post" id="transferForm">
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">ID</label>
+                      <label for="recipId" class="form-label">ID</label>
                       <div class="input-group has-validation">
-                       
-                        <input type="number" name="username" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please enter ID of recipient Money</div>
+                        <input type="number" name="recipient_id" class="form-control" id="recipId" required>
+                        <div class="invalid-feedback">Please enter ID of the recipient</div>
                       </div>
                     </div>
-
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Amount</label>
-                      <input type="number" name="password" class="form-control" id="yourPassword" required>
+                      <label for="amount" class="form-label">Amount</label>
+                      <input type="number" name="amount" class="form-control" id="amount" required>
                       <div class="invalid-feedback">Please enter an Amount</div>
                     </div>
-
                     <div class="col-12">
-                    
+                      <button class="btn btn-primary w-100" type="button" onclick="showConfirmationPopup()">Transfer</button>
                     </div>
-                    <div class="col-12">
-                    <form class="row g-3 needs-validation" novalidate action="process_transfer.php" method="post" id="transferForm">
 
-                    <button class="btn btn-primary w-100" type="button" onclick="showConfirmationPopup()">Transfer</button>
-
-                    </div>
-                    
                   </form>
-
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>
-
       </section>
-
     </div>
-  </main><!-- End #main -->
+  </main>
+  <!-- Confirmation Modal -->
+  <div class="modal" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmationModalLabel">Confirm Transfer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="errorMessage" class="text-danger"></p>
+          <p>Recipient ID: <span id="recipientIdModal"></span></p>
+          <p>Amount: $<span id="transferAmountModal"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="submitTransferForm()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script>
-  function showConfirmationPopup() {
-      // Get form data
-      var recipientId = document.getElementById("yourUsername").value;
-      var amount = document.getElementById("yourPassword").value;
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-      // Check if input fields are empty
-      if (!recipientId.trim() || !amount.trim()) {
-        alert("Please fill in all required fields.");
+  <script>
+    function validateInputFields() {
+      var isValid = true;
+
+      var recipientId = document.getElementById("recipId").value;
+      var amount = document.getElementById("amount").value;
+
+      if (recipientId.trim() === "" || isNaN(recipientId)) {
+        document.getElementById("recipId").classList.add("is-invalid");
+        isValid = false;
+
+      } else {
+        document.getElementById("recipId").classList.remove("is-invalid");
+      }
+      if (amount.trim() === "" || isNaN(amount) || parseFloat(amount) <= 0) {
+        document.getElementById("amount").classList.add("is-invalid");
+        isValid = false;
+
+      } else {
+        document.getElementById("amount").classList.remove("is-invalid");
+      }
+      return isValid;
+    }
+
+    function showConfirmationPopup() {
+      if (!validateInputFields()) {
+
         return;
       }
 
-      // Create the confirmation message
-      var confirmationMessage = "Recipient ID: " + recipientId + "\nAmount: " + amount;
 
-      // Show the confirmation popup
-      var isConfirmed = confirm("Please confirm your transfer:\n" + confirmationMessage);
+      var recipientId = document.getElementById("recipId").value;
+      var amount = document.getElementById("amount").value;
 
-      // If the user confirms, submit the form
-      if (isConfirmed) {
-        document.getElementById("transferForm").submit();
-      }
+      document.getElementById("recipientIdModal").innerText = recipientId;
+      document.getElementById("transferAmountModal").innerText = amount;
+      $('#confirmationModal').modal('show');
+
     }
-</script>
+
+    function submitTransferForm() {
+      if (!validateInputFields()) {
+        return;
+      }
+
+      document.getElementById("transferForm").submit();
+    }
+  </script>
 
 
 </body>
