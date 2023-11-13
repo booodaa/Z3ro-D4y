@@ -1,14 +1,5 @@
 <?php
-session_start();
-include("database.php");
-$_SESSION['Clint_name'];
-$_SESSION['Email'];
-
-if (!isset($_SESSION['Clint_name'])) {
-  // Redirect to login.php
-  header("Location: login.php");
-  exit;
-}
+include('php/users-profile.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,11 +66,11 @@ if (!isset($_SESSION['Clint_name'])) {
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="img/profile.png" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['Clint_name']; ?></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['Client_name']; ?></span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6><?php echo $_SESSION['Clint_name']; ?></h6>
+              <h6><?php echo $_SESSION['Client_name']; ?></h6>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -110,7 +101,7 @@ if (!isset($_SESSION['Clint_name'])) {
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
+              <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Log out</span>
               </a>
@@ -126,7 +117,7 @@ if (!isset($_SESSION['Clint_name'])) {
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index.php">
+        <a class="nav-link collapsed" href="php/index.php">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -153,7 +144,7 @@ if (!isset($_SESSION['Clint_name'])) {
 
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="php/index.php">Home</a></li>
           <li class="breadcrumb-item active">Profile</li>
         </ol>
       </nav>
@@ -166,7 +157,7 @@ if (!isset($_SESSION['Clint_name'])) {
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="img/profile.png" alt="Profile" class="rounded-circle">
-              <h2><?php echo $_SESSION['Clint_name']; ?></h2>
+              <h2><?php echo $_SESSION['Client_name']; ?></h2>
 
             </div>
           </div>
@@ -210,7 +201,7 @@ if (!isset($_SESSION['Clint_name'])) {
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                    <div class="col-lg-9 col-md-8"><?php echo $_SESSION['Clint_name']; ?></div>
+                    <div class="col-lg-9 col-md-8"><?php echo $_SESSION['Client_name']; ?></div>
                   </div>
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
@@ -236,7 +227,7 @@ if (!isset($_SESSION['Clint_name'])) {
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo $_SESSION['Clint_name']; ?>">
+                        <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo $_SESSION['Client_name']; ?>">
                       </div>
                     </div>
 
@@ -258,7 +249,7 @@ if (!isset($_SESSION['Clint_name'])) {
 
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
-                  <form>
+                <form action="php/changePassword.php" method="post">
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>

@@ -1,33 +1,6 @@
 <?php
-include("database.php");
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-  $Clint_name =  htmlspecialchars($_REQUEST['name']);
-  $Email = htmlspecialchars($_REQUEST['email']);
-  $User_name = htmlspecialchars($_REQUEST['username']);
-  $password = htmlspecialchars($_REQUEST['password']);
-  $terms = htmlspecialchars($_REQUEST['terms']);
-  $hash = password_hash($password, PASSWORD_DEFAULT);
-
-  $sql = "INSERT INTO `users` (User_name, Clint_name, Email, Password) VALUES ('$User_name', '$Clint_name', '$Email', '$hash')";
-
-  try {
-    if (mysqli_query($conn, $sql)) {
-      echo "Registration successful!";
-      header("Location: login.php"); // Redirect to login.php
-      exit();
-    }
-  } catch (mysqli_sql_exception $e) {
-    if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-      echo "Username already exists. Please choose a different username.";
-    } else {
-      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-    }
-  }
-}
-
-mysqli_close($conn);
+session_start();
+include('php/register.php');
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +63,7 @@ mysqli_close($conn);
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate action="register.php" method="post">
+                  <form class="row g-3 needs-validation" novalidate action="php/register.php" method="post">
                     <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
                       <input type="text" name="name" class="form-control" id="yourName" required>
@@ -118,9 +91,14 @@ mysqli_close($conn);
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
                       <div class="input-group has-validation">
-                        <input type="password" name="password" class="form-control" id="yourPassword" required>
-                        <div class="input-group-text">
-                          <input type="image" src="img/icons8-show-20.png" onclick="showPassword()">
+                        <div class="input-group">
+                          <input type="password" name="password" class="form-control" id="yourPassword" required>
+                         <div class="input-group-append">
+                            <label class="btn btn-outline-secondary d-flex align-items-center justify-content-center" style="--bs-btn-border-color: transparent; width: 35px; height: 100%; padding: 0; border-radius: 0;">
+                                <input type="checkbox" onclick="showPassword();" style="display: none;">
+                                <img id="showPasswordButton" src="/website/img/icons8-show-20.png" alt="Show Password" style="max-width: 100%; max-height: 100%;">
+                            </label>
+                         </div>
                         </div>
                         <div class="invalid-feedback">Please enter your password!</div>
                       </div>
@@ -172,14 +150,17 @@ mysqli_close($conn);
 
 
   <script>
-    function showPassword() {
-      var passwordInput = document.getElementById("yourPassword");
-      if (passwordInput.type === "password") {
+function showPassword() {
+    var passwordInput = document.getElementById("yourPassword");
+    var showPasswordButton = document.getElementById("showPasswordButton");
+    if (passwordInput.type === "password") {
         passwordInput.type = "text";
-      } else {
+        showPasswordButton.src = "/website/img/icons8-hide-20.png";
+    } else {
         passwordInput.type = "password";
-      }
+        showPasswordButton.src = "/website/img/icons8-show-20.png";
     }
+}
   </script>
 </body>
 
