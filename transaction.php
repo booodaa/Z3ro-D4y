@@ -1,5 +1,5 @@
 <?php
-include('php/transaction.php');  
+include('php/transaction.php');
 ?>
 
 <!DOCTYPE html>
@@ -25,18 +25,18 @@ include('php/transaction.php');
   <link rel="stylesheet" href="assets/vendor/quill/quill.bubble.css">
   <link rel="stylesheet" href="assets/vendor/remixicon/remixicon.css">
   <link rel="stylesheet" href="assets/vendor/simple-datatables/style.css">
-  
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
   <link rel="stylesheet" href="assets/css/style.css">
 
   <style>
-    
     .error-message {
       color: #dc3545;
       margin: auto;
       text-align: left;
       display: none;
     }
-
   </style>
 
 </head>
@@ -59,21 +59,21 @@ include('php/transaction.php');
     <nav class="header-nav ms-auto">
 
       <ul class="d-flex align-items-center">
-      
+
         <li class="nav-item dropdown">
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
           </ul>
         </li>
 
         <li class="nav-item dropdown pe-3">
-        
+
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="img/profile.png" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['Client_name']; ?></span>
           </a>
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-          
+
             <li class="dropdown-header">
               <h6><?php echo $_SESSION['Client_name']; ?></h6>
             </li>
@@ -102,11 +102,11 @@ include('php/transaction.php');
             <li>
               <hr class="dropdown-divider">
             </li>
-          
+
             <li>
               <hr class="dropdown-divider">
             </li>
-          
+
             <li>
               <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
@@ -127,7 +127,7 @@ include('php/transaction.php');
   <main>
 
     <aside id="sidebar" class="sidebar">
-    
+
       <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
@@ -136,100 +136,86 @@ include('php/transaction.php');
             <span>Dashboard</span>
           </a>
         </li>
-      
+
         <li class="nav-item">
 
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
-        
+
           <a class="nav-link " href="users-profile.php">
             <i class="bi bi-person"></i>
             <span>Profile</span>
           </a>
-        
+
           <a class="nav-link collapsed" href="transaction.php">
             <img src="img/transaction.png" alt="image load error" width="20" height="25">
             <span>Transaction</span>
           </a>
-        
+
         </li>
-    
+
       </ul>
 
     </aside>
 
     <div class="container">
-    
+
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-      
+
         <div class="container">
-        
+
           <div class="d-flex justify-content-center py-4">
-          
-              <a href="index.php" class="logo d-flex align-items-center w-auto">
-                <img src="assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">Z3ro D4y Transaction</span>
-              </a>
-          
+
+            <a href="index.php" class="logo d-flex align-items-center w-auto">
+              <img src="assets/img/logo.png" alt="">
+              <span class="d-none d-lg-block">Z3ro D4y Transaction</span>
+            </a>
+
           </div>
-        
+
           <div class="row justify-content-center">
-          
+
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-            
+
               <div class="card mb-3">
-              
+
                 <div class="card-body">
-                
+
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Transfer Money</h5>
                     <p class="text-center small">Enter Data to Transfer</p>
                   </div>
-                
+
                   <form class="row g-3 needs-validation" novalidate action="php/process_transfer.php" method="post" id="transferForm">
-                  
                     <div class="col-12">
                       <label for="recipId" class="form-label">ID</label>
                       <div class="input-group has-validation">
-                        <input type="number" name="recipient_id" class="form-control" id="recipId" required oninput="validateRecipientId(this)">
-                        <div class="invalid-feedback">Please enter ID of the recipient</div>
-                        <div class="error-message" id="recipIdError">Please enter a valid positive integer.</div>
+                        <input type="number" name="recipient_id" class="form-control" id="recipId" required>
                       </div>
+                      <div id="recipIdError" class="invalid-feedback"></div>
                     </div>
-                  
-                    <div id="zeroAlert" class="alert alert-danger alert-dismissible fade show mt-2" role="alert" style="display: none;">
-                      Please don't start the ID with zero.
-                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                  
+
                     <div class="col-12">
                       <label for="amount" class="form-label">Amount</label>
-                      <input type="number" name="amount" class="form-control" id="amount" required oninput="validateAmount(this)">
-                      <div class="invalid-feedback">Please enter a valid Amount</div>
-                      <div class="error-message" id="amountError">Please enter a valid positive number.</div>
-                      <div id="zeroAmountAlert" class="alert alert-danger alert-dismissible fade show mt-2" role="alert" style="display: none;">
-                        Please don't start the amount with zero.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
+                      <input type="number" name="amount" class="form-control" id="amount" required>
+                      <div id="amountError" class="invalid-feedback"></div>
                     </div>
-                  
+
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="button" onclick="showConfirmationPopup()">Transfer</button>
                     </div>
-                  
                   </form>
-                
                 </div>
-              
+
               </div>
-          
+
             </div>
-        
+
           </div>
-        
+
         </div>
-    
+
       </section>
 
     </div>
@@ -237,35 +223,35 @@ include('php/transaction.php');
   </main>
 
   <div class="modal" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-  
+
     <div class="modal-dialog" role="document">
-    
+
       <div class="modal-content">
-      
+
         <div class="modal-header">
-        
+
           <h5 class="modal-title" id="confirmationModalLabel">Confirm Transfer</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        
+
         </div>
-        
+
         <div class="modal-body">
-        
+
           <p id="errorMessage" class="text-danger"></p>
           <p>Recipient ID: <span id="recipientIdModal"></span></p>
           <p>Amount: $<span id="transferAmountModal"></span></p>
-        
+
         </div>
-        
+
         <div class="modal-footer">
-        
+
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-primary" onclick="submitTransferForm()">Confirm</button>
-        
+
         </div>
-    
+
       </div>
-  
+
     </div>
 
   </div>
@@ -278,16 +264,9 @@ include('php/transaction.php');
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <script src="assets/vendor/chart.js/chart.umd.js"></script>
 
@@ -299,138 +278,78 @@ include('php/transaction.php');
 
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 
+
   <script>
-  
-    function validateInputFields() {
-    
-      var isValid = true;
-      
-      var recipientId = document.getElementById("recipId").value;
-      var amount = document.getElementById("amount").value;
-      
-      if (recipientId.trim() === "" || isNaN(recipientId) || recipientId < 0) {
-      
-        document.getElementById("recipId").classList.add("is-invalid");
-        document.getElementById("recipIdError").style.display = "block";
-        isValid = false;
-        
-      } else {
-      
-        document.getElementById("recipId").classList.remove("is-invalid");
-        document.getElementById("recipIdError").style.display = "none";
-        
+    document.getElementById("recipId").addEventListener("input", validateRecipientId);
+    document.getElementById("amount").addEventListener("input", validateAmount);
+
+    function validateRecipientId() {
+      const recipientId = document.getElementById("recipId");
+      const recipientIdError = document.getElementById("recipIdError");
+
+      // Clear previous error message and error class
+      recipientIdError.innerText = "";
+      recipientId.classList.remove("is-invalid");
+
+      if (!recipientId.value) {
+        recipientIdError.innerText = "Recipient ID cannot be empty";
+        recipientId.classList.add("is-invalid");
+        return false;
       }
-      
-      if (amount.trim() === "" || isNaN(amount) || parseFloat(amount) <= 0) {
-      
-        document.getElementById("amount").classList.add("is-invalid");
-        document.getElementById("amountError").style.display = "block";
-        isValid = false;
-        
-      } else {
-      
-        document.getElementById("amount").classList.remove("is-invalid");
-        document.getElementById("amountError").style.display = "none";
-        
+
+      if (isNaN(recipientId.value) || recipientId.value <= 0 ) {
+        recipientIdError.innerText = "Please enter a valid positive recipient ID";
+        recipientId.classList.add("is-invalid");
+        return false;
       }
-      
-      return isValid;
-      
+
+      return true;
     }
 
+    function validateAmount() {
+      const amount = document.getElementById("amount");
+      const amountError = document.getElementById("amountError");
+
+      // Clear previous error message and error class
+      amountError.innerText = "";
+      amount.classList.remove("is-invalid");
+
+      if (!amount.value) {
+        amountError.innerText = "Amount cannot be empty";
+        amount.classList.add("is-invalid");
+        return false;
+      }
+
+      if (isNaN(amount.value) || amount.value <= 0) {
+        amountError.innerText = "Please enter a valid amount";
+        amount.classList.add("is-invalid");
+        return false;
+      }
+
+      return true;
+    }
+
+
     function showConfirmationPopup() {
-    
-      if (!validateInputFields()) {
+      if (!validateAmount() || !validateRecipientId()) {
         return;
       }
-      
+
       var recipientId = document.getElementById("recipId").value;
       var amount = document.getElementById("amount").value;
-      
+
       document.getElementById("recipientIdModal").innerText = recipientId;
       document.getElementById("transferAmountModal").innerText = amount;
-      
+
       $('#confirmationModal').modal('show');
-      
     }
 
     function submitTransferForm() {
-    
-      if (!validateInputFields()) {
-        return;
-      }
-      
+
       document.getElementById("transferForm").submit();
-      
     }
-
-    function validateRecipientId(input) {
-    
-      var value = input.value;
-      
-      value = value.replace(/^0+/, '');
-      
-      input.value = value;
-      
-      if (value === '0') {
-      
-        document.getElementById("zeroAlert").style.display = "block";
-        return;
-        
-      }
-      
-      document.getElementById("zeroAlert").style.display = "none";
-
-      var isValid = /^\d+$/.test(value); 
-      
-      if (!isValid) {
-      
-        document.getElementById("recipId").classList.add("is-invalid");
-        document.getElementById("recipIdError").style.display = "block";
-        
-      } else {
-      
-        document.getElementById("recipId").classList.remove("is-invalid");
-        document.getElementById("recipIdError").style.display = "none";
-        
-      }
-      
-    }
-
-    function validateAmount(input) {
-    
-      var value = input.value;
-      
-      value = value.replace(/^0+/, '');
-      
-      input.value = value;
-      
-      if (value === '0') {
-      
-        document.getElementById("zeroAmountAlert").style.display = "block";
-        return;
-        
-      }
-      
-      document.getElementById("zeroAmountAlert").style.display = "none";
-
-      var isValid = /^\d+(\.\d{1,2})?$/.test(value);
-      
-      if (!isValid) {
-      
-        document.getElementById("amount").classList.add("is-invalid");
-        document.getElementById("amountError").style.display = "block";
-        
-      } else {
-      
-        document.getElementById("amount").classList.remove("is-invalid");
-        document.getElementById("amountError").style.display = "none";
-        
-      }
-      
-    }
-
   </script>
+
 
 </body>
 
