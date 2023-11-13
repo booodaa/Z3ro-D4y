@@ -9,7 +9,7 @@ include('php/login.php');
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Z3ro D4y Login</title>
+  <title>Z3ro D4y Admin Login</title>
   <meta content="" name="description">
   <meta content="" name="keywords">    <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">    <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -21,7 +21,12 @@ include('php/login.php');
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">    <link href="assets/css/style.css" rel="stylesheet">
 
-
+  <style> .logo span {
+  font-size: 35px;
+  font-weight: 700;
+  color: #012970;
+  font-family: "Nunito", sans-serif;
+}</style>
 </head>
 
 <body>
@@ -37,7 +42,7 @@ include('php/login.php');
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">Z3ro D4y</span>
+                  <span class="d-none d-lg-block">Z3ro D4y Admin Login</span>
                 </a>
               </div>                <div class="card mb-3">
 
