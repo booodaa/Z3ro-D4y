@@ -140,7 +140,7 @@ include('php/index.php');
         </a>
         
         <a class="nav-link collapsed" href="transaction.php">
-          <img src="img/transaction.png" alt="image load error" width="20" height="25">
+        <i class="bi bi-currency-dollar"></i>
           <span>Transaction</span>
         </a>
         
