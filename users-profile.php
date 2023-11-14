@@ -230,7 +230,12 @@ include('php/users-profile.php');
                         <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo $_SESSION['Client_name']; ?>">
                       </div>
                     </div>
-
+                     <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">username</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="fullName" type="text" class="form-control" id="username" value="<?php echo $_SESSION['User_name']; ?>">
+                      </div>
+                    </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
