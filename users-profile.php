@@ -118,7 +118,7 @@ include('php/users-profile.php');
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="php/index.php">
+        <a class="nav-link collapsed" href="index.php">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -130,7 +130,7 @@ include('php/users-profile.php');
           <i class="bi bi-person"></i>
           <span>Profile</span>
           <a class="nav-link collapsed" href="transaction.php">
-            <img src="img/transaction.png" alt="image load error" width="20" height="25">
+          <i class="bi bi-currency-dollar"></i>
             <span>Transaction</span>
           </a>
         </a>
