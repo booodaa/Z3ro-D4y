@@ -3,7 +3,7 @@ session_start();
 include("database.php");
 
 if (isset($_POST['username'], $_POST['password'])) {
-  $User_name = $_POST['username'];
+  $User_name = trim($_POST['username']);
   $password = $_POST['password'];
 
   $stmt = $conn->prepare("SELECT * FROM `users` WHERE BINARY User_name = ?");
