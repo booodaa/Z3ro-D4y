@@ -1,3 +1,4 @@
+<!-- transaction.php -->
 <?php
 include('php/transaction.php');
 ?>
@@ -156,7 +157,7 @@ include('php/transaction.php');
         </a>
           <a class="nav-link " href="transaction.php">
           <i class="bi bi-currency-dollar"></i>
-            <span>Transaction</span>
+            <span>transaction</span>
           </a>
 
          
