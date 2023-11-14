@@ -1,4 +1,4 @@
-// users-profile.php
+<!-- users-profile.php -->
 <?php
 include('php/users-profile.php');
 ?>
@@ -130,7 +130,7 @@ include('php/users-profile.php');
           <i class="bi bi-person"></i>
           <span>Profile</span>
           <a class="nav-link collapsed" href="transaction.php">
-          <i class="bi bi-currency-dollar"></i>
+            <img src="img/transaction.png" alt="image load error" width="20" height="25">
             <span>Transaction</span>
           </a>
         </a>
