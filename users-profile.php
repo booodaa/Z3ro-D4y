@@ -130,7 +130,7 @@ include('php/users-profile.php');
           <i class="bi bi-person"></i>
           <span>Profile</span>
           <a class="nav-link collapsed" href="transaction.php">
-            <img src="img/transaction.png" alt="image load error" width="20" height="25">
+            <i class="bi bi-currency-dollar"></i>
             <span>Transaction</span>
           </a>
         </a>
@@ -231,7 +231,7 @@ include('php/users-profile.php');
                         <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo $_SESSION['Client_name']; ?>">
                       </div>
                     </div>
-                     <div class="row mb-3">
+                    <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">username</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="fullName" type="text" class="form-control" id="username" value="<?php echo $_SESSION['User_name']; ?>">
@@ -255,7 +255,7 @@ include('php/users-profile.php');
 
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
-                <form action="php/changePassword.php" method="post">
+                  <form action="php/changePassword.php" method="post">
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
