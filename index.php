@@ -1,3 +1,4 @@
+//index.php
 <?php
 include('php/index.php');
 ?>
@@ -134,13 +135,13 @@ include('php/index.php');
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-      <a class="nav-link collapsed" href="users-profile.php">
+        <a class="nav-link " href="users-profile.php">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
         
         <a class="nav-link collapsed" href="transaction.php">
-        <i class="bi bi-currency-dollar"></i>
+          <img src="img/transaction.png" alt="image load error" width="20" height="25">
           <span>Transaction</span>
         </a>
         
@@ -193,7 +194,7 @@ include('php/index.php');
                     </div>
                     
                     <div class="ps-3">
-                      <h6><?php echo $_SESSION['Balance']; ?></h6> 
+                    <h6 id="balance">0</h6> 
                     </div>
                     
                   </div>
@@ -627,6 +628,27 @@ include('php/index.php');
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <script src="assets/js/main.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+$(document).ready(function() {
+   setInterval(function() {
+       $.get('php/get-updates.php', function(data) {
+           // Split the response into an array of strings
+           var dataArray = data.split('//get-updates.php');
+           
+           // Select the first element of the array (which should be the balance)
+           var balance = dataArray[1];
+           
+           // Update your page with the balance
+           $('#balance').text(balance);
+       });
+   }, 1000);
+});
+
+
+</script>
 
 </body>
 
