@@ -3,11 +3,11 @@ include("database.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  $Client_name =  htmlspecialchars($_REQUEST['name']);
-  $Email = htmlspecialchars($_REQUEST['email']);
-  $User_name = htmlspecialchars($_REQUEST['username']);
+  $Client_name =  trim(htmlspecialchars($_REQUEST['name']));
+  $Email = trim(htmlspecialchars($_REQUEST['email']));
+  $User_name = trim(htmlspecialchars($_REQUEST['username']));
   $password = htmlspecialchars($_REQUEST['password']);
-  $terms = htmlspecialchars($_REQUEST['terms']);
+  $terms = trim(htmlspecialchars($_REQUEST['terms']));
   $hash = password_hash($password, PASSWORD_DEFAULT);
 
   $sql = "INSERT INTO `users` (User_name, Client_name, Email, Password) VALUES ('$User_name', '$Client_name', '$Email', '$hash')";
