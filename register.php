@@ -1,3 +1,4 @@
+<!-- register.php -->
 <?php
 include('php/register.php');
 ?>
