@@ -156,7 +156,7 @@ include('php/transaction.php');
         </a>
           <a class="nav-link " href="transaction.php">
           <i class="bi bi-currency-dollar"></i>
-            <span>transaction</span>
+            <span>Transaction</span>
           </a>
 
          
