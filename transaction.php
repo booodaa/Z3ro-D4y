@@ -31,6 +31,13 @@ include('php/transaction.php');
   <link rel="stylesheet" href="assets/css/style.css">
 
   <style>
+    .card {
+      margin: 24px -82px -58px -50px;
+  margin-bottom: 30px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
     .error-message {
       color: #dc3545;
       margin: auto;
@@ -131,10 +138,10 @@ include('php/transaction.php');
       <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-          <a class="nav-link " href="index.php">
-            <i class="bi bi-grid"></i>
-            <span>Dashboard</span>
-          </a>
+        <a class="nav-link collapsed" href="index.php">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
         </li>
 
         <li class="nav-item">
@@ -143,15 +150,16 @@ include('php/transaction.php');
 
         <li class="nav-item">
 
-          <a class="nav-link " href="users-profile.php">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
+        <a class="nav-link collapsed" href="users-profile.php">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+          <a class="nav-link " href="transaction.php">
+          <i class="bi bi-currency-dollar"></i>
+            <span>transaction</span>
           </a>
 
-          <a class="nav-link collapsed" href="transaction.php">
-            <img src="img/transaction.png" alt="image load error" width="20" height="25">
-            <span>Transaction</span>
-          </a>
+         
 
         </li>
 
