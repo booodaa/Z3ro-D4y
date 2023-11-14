@@ -11,7 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "New passwords do not match!";
         exit();
     }
+    if ($currentPassword == $reNewPassword || $currentPassword == $newPassword) {
+        echo "Your current assword is the same as the new!";
+        exit();
 
+    }
     $userId = $_SESSION['User_ID'];
     $stmt = $conn->prepare("SELECT * FROM `users` WHERE User_ID = ?");
     $stmt->bind_param("s", $userId);
