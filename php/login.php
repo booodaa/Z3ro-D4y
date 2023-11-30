@@ -1,10 +1,15 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include("database.php");
 
 if (isset($_POST['username'], $_POST['password'])) {
   $User_name = trim($_POST['username']);
   $password = $_POST['password'];
+
+  // Sanitize user input
+  $User_name = htmlspecialchars($User_name, ENT_QUOTES, 'UTF-8');
 
   $stmt = $conn->prepare("SELECT * FROM `users` WHERE BINARY User_name = ?");
   $stmt->bind_param("s", $User_name);
@@ -24,17 +29,30 @@ if (isset($_POST['username'], $_POST['password'])) {
       $_SESSION['Email'] = $row['Email'];
       $_SESSION['Balance'] = $row['Balance'];
 
-      echo "Login successful!";
+      //echo "Login successful!";
       header("location: index.php");
       exit();
     } else {
-      // Invalid password
-      echo "Invalid password!";
-    }
+      // User not found or invalid password
+      $modalMessage = "wrong password!"; // You can change this message based on the error
+      echo "<script type='text/javascript'>
+              window.onload = function() {
+                  document.getElementById('modalBody').innerText = '".$modalMessage."';
+                  $('#popUpModal').modal('show');
+              };
+            </script>";
+  }
   } else {
     // User not found
-    echo "User not found!";
-  }
+    $modalMessage = "User not found"; // You can change this message based on the error
+    echo "<script type='text/javascript'>
+            window.onload = function() {
+              
+                document.getElementById('modalBody').innerText = '".$modalMessage."';
+               // $('#popUpModal .modal-dialog').addClass('modal-dialog-centered');
+                $('#popUpModal').modal('show');
+            };
+          </script>";  }
 
   $stmt->close();
   $conn->close();
