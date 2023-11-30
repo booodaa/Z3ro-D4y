@@ -121,7 +121,7 @@ include('php/index.php');
 
   </header>
 
-  <aside id="sidebar" class="sidebar">
+ <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
@@ -137,11 +137,10 @@ include('php/index.php');
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link " href="users-profile.php">
-          <i class="bi bi-person"></i>
+        <a class="nav-link collapsed" href="users-profile.php">
+        <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
-
         <a class="nav-link collapsed" href="transaction.php">
           <i class="bi bi-currency-dollar"></i>
           <span>Transaction</span>
@@ -149,10 +148,10 @@ include('php/index.php');
 
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="transaction-history.php">
-        <i class="bi bi-clock-history"></i>
-          <span>Transaction History</span>
-        </a>
+      <a class="nav-link collapsed" href="transaction-history.php">
+    <i class="bi bi-clock-history"></i>
+      <span>Transaction History</span>
+    </a>
       </li>
     </ul>
 
