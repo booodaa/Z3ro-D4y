@@ -29,6 +29,7 @@ include('php/index.php');
   <link rel="stylesheet" href="assets/vendor/remixicon/remixicon.css">
   <link rel="stylesheet" href="assets/vendor/simple-datatables/style.css">
 
+
   <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
@@ -147,7 +148,12 @@ include('php/index.php');
         </a>
 
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link" href="transaction-history.php">
+        <i class="bi bi-clock-history"></i>
+          <span>Transaction History</span>
+        </a>
+      </li>
     </ul>
 
   </aside>
@@ -195,7 +201,7 @@ include('php/index.php');
                     </div>
 
                     <div class="ps-3">
-                      <h6 id="balance">0</h6>
+                      <h6 id="balance"><?php echo $_SESSION['Balance']; ?></h6>
                     </div>
 
                   </div>

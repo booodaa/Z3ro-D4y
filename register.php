@@ -63,7 +63,7 @@ include('php/register.php');
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate action="php/register.php" method="post">
+                  <form class="row g-3 needs-validation" novalidate action="register.php" method="post">
                     <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
                       <input type="text" name="name" class="form-control" id="yourName" required>
@@ -93,12 +93,12 @@ include('php/register.php');
                       <div class="input-group has-validation">
                         <div class="input-group">
                           <input type="password" name="password" class="form-control" id="yourPassword" required>
-                         <div class="input-group-append">
+                          <div class="input-group-append">
                             <label class="btn btn-outline-secondary d-flex align-items-center justify-content-center" style="--bs-btn-border-color: transparent; width: 35px; height: 100%; padding: 0; border-radius: 0;">
-                                <input type="checkbox" onclick="showPassword();" style="display: none;">
-                                <img id="showPasswordButton" src="/website/img/icons8-show-20.png" alt="Show Password" style="max-width: 100%; max-height: 100%;">
+                              <input type="checkbox" onclick="showPassword();" style="display: none;">
+                              <img id="showPasswordButton" src="/website/img/icons8-show-20.png" alt="Show Password" style="max-width: 100%; max-height: 100%;">
                             </label>
-                         </div>
+                          </div>
                         </div>
                         <div class="invalid-feedback">Please enter your password!</div>
                       </div>
@@ -145,23 +145,49 @@ include('php/register.php');
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
+
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
   <script>
-function showPassword() {
-    var passwordInput = document.getElementById("yourPassword");
-    var showPasswordButton = document.getElementById("showPasswordButton");
-    if (passwordInput.type === "password") {
+    function showPassword() {
+      var passwordInput = document.getElementById("yourPassword");
+      var showPasswordButton = document.getElementById("showPasswordButton");
+      if (passwordInput.type === "password") {
         passwordInput.type = "text";
         showPasswordButton.src = "/website/img/icons8-hide-20.png";
-    } else {
+      } else {
         passwordInput.type = "password";
         showPasswordButton.src = "/website/img/icons8-show-20.png";
+      }
     }
-}
   </script>
+
+
+
+  <!--start of  modal -->
+  <div class="modal fade" id="popUpModal" tabindex="-1" aria-labelledby="popUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popUpModalLabel">Error</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- modal body -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end of  modal -->
+
+
+  
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 <!-- users-profile.php -->
 <?php
 include('php/users-profile.php');
+include('php/editProfile.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,8 +11,7 @@ include('php/users-profile.php');
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Z3ro D4y Profile page</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -115,29 +115,40 @@ include('php/users-profile.php');
   </header>
   <aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index.php">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-heading">Pages</li>
+  <li class="nav-item">
+    <a class="nav-link " href="index.php">
+      <i class="bi bi-grid"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
 
-      <li class="nav-item">
-        <a class="nav-link " href="users-profile.php">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-          <a class="nav-link collapsed" href="transaction.php">
-            <i class="bi bi-currency-dollar"></i>
-            <span>Transaction</span>
-          </a>
-        </a>
-      </li>
-    </ul>
+  <li class="nav-item">
 
-  </aside>
+  <li class="nav-heading">Pages</li>
+
+  <li class="nav-item">
+    <a class="nav-link " href="users-profile.php">
+      <i class="bi bi-person"></i>
+      <span>Profile</span>
+    </a>
+
+    <a class="nav-link collapsed" href="transaction.php">
+      <i class="bi bi-currency-dollar"></i>
+      <span>Transaction</span>
+    </a>
+
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="transaction-history.php">
+    <i class="bi bi-clock-history"></i>
+      <span>Transaction History</span>
+    </a>
+  </li>
+</ul>
+
+</aside>
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -213,7 +224,7 @@ include('php/users-profile.php');
                 </div>
 
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                  <form>
+                  <form action="users-profile.php" method="post">
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
@@ -231,10 +242,11 @@ include('php/users-profile.php');
                         <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo $_SESSION['Client_name']; ?>">
                       </div>
                     </div>
+
                     <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">username</label>
+                      <label for="username" class="col-md-4 col-lg-3 col-form-label">username</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="username" value="<?php echo $_SESSION['User_name']; ?>">
+                        <input name="username" type="text" class="form-control" id="username" value="<?php echo $_SESSION['User_name']; ?>">
                       </div>
                     </div>
 
@@ -293,15 +305,39 @@ include('php/users-profile.php');
     </section>
 
   </main>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
+
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/chart.js/chart.umd.js"></script>
   <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js "></script>
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <!--start of  modal -->
+  <div class="modal fade" id="popUpModal" tabindex="-1" aria-labelledby="popUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popUpModalLabel">Error</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- modal body -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end of  modal -->
+
 
 </body>
 
