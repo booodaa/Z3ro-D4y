@@ -113,13 +113,14 @@ include('php/editProfile.php');
       </ul>
     </nav>
   </header>
-  <aside id="sidebar" class="sidebar">
+ <aside id="sidebar" class="sidebar">
 
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
-    <a class="nav-link " href="index.php">
-      <i class="bi bi-grid"></i>
+
+    <a class="nav-link collapsed" href="index.php">
+    <i class="bi bi-grid"></i>
       <span>Dashboard</span>
     </a>
   </li>
@@ -138,10 +139,11 @@ include('php/editProfile.php');
       <i class="bi bi-currency-dollar"></i>
       <span>Transaction</span>
     </a>
+   
 
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="transaction-history.php">
+  <a class="nav-link collapsed" href="transaction-history.php">
     <i class="bi bi-clock-history"></i>
       <span>Transaction History</span>
     </a>
@@ -305,18 +307,18 @@ include('php/editProfile.php');
     </section>
 
   </main>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
-
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js "></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.min.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
   <!--start of  modal -->
