@@ -165,12 +165,15 @@ include('php/index.php');
 
         </div>
 
-        <table class="table table-striped">
+       <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Date</th>
-                    <th>Description</th>
+                    <th>Type</th>
+                    <th>ID</th>
                     <th>Amount</th>
+                  
+
                 </tr>
             </thead>
             <tbody>
@@ -178,26 +181,31 @@ include('php/index.php');
                     <td>2023-03-10</td>
                     <td>Salary</td>
                     <td>5000</td>
+                    <td>5000</td>
                 </tr>
                 <tr class="table-danger">
                     <td>2023-03-15</td>
                     <td>Groceries</td>
                     <td>-150</td>
+                    <td>5000</td>
                 </tr>
                 <tr class="table-danger">
                     <td>2023-03-20</td>
                     <td>Rent</td>
                     <td>-1200</td>
+                    <td>5000</td>
                 </tr>
                 <tr class="table-success">
                     <td>2023-03-25</td>
                     <td>Bonus</td>
                     <td>1000</td>
+                    <td>5000</td>
                 </tr>
                 <tr class="table-danger">
                     <td>2023-03-30</td>
                     <td>Gas</td>
                     <td>-50</td>
+                    <td>5000</td>
                 </tr>
             </tbody>
         </table>
