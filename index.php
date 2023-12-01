@@ -121,41 +121,49 @@ include('php/index.php');
 
   </header>
 
- <aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
-        <a class="nav-link " href="index.php">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
+<li class="nav-item">
+    <a class="nav-link " href="index.php">
+    <i class="bi bi-grid"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
 
-      <li class="nav-item">
+ 
 
-      <li class="nav-heading">Pages</li>
+  <li class="nav-item">
+   
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.php">
-        <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-        <a class="nav-link collapsed" href="transaction.php">
-          <i class="bi bi-currency-dollar"></i>
-          <span>Transaction</span>
-        </a>
+    <a class="nav-link collapsed" href="users-profile.php">
+    <i class="bi bi-person"></i>
+      <span>Profile</span>
+    </a>
+   
 
-      </li>
-      <li class="nav-item">
-      <a class="nav-link collapsed" href="transaction-history.php">
+  </li>
+  <li class="nav-item">
+   
+
+    <a class="nav-link collapsed" href="transaction.php">
+      <i class="bi bi-currency-dollar"></i>
+      <span>Transaction</span>
+    </a>
+   
+
+  </li>
+  
+  <li class="nav-item">
+  <a class="nav-link collapsed" href="transaction-history.php">
     <i class="bi bi-clock-history"></i>
       <span>Transaction History</span>
     </a>
-      </li>
-    </ul>
+  </li>
+</ul>
 
-  </aside>
+</aside>
 
   <main id="main" class="main">
 
