@@ -26,7 +26,85 @@ include('php/changePassword.php');
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
 
-
+ <style>
+.sidebar{
+  background-color: #111111;
+  box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
+}
+.sidebar-nav .nav-link.collapsed{
+  background-color: #111111;
+  color: white;
+}
+.sidebar-nav .nav-link{
+  background-color: #303030;
+  color: white;
+}
+.sidebar-nav .nav-link i{
+  color: #8086b0;
+}
+.header{
+  background-color: #111111;
+  box-shadow: 0 5px 30px 0 rgb(62 62 62 / 20%);
+}
+.logo span{
+  color: white;
+}
+.header .toggle-sidebar-btn{
+  color: white;
+  margin: 16px 37px 18px -135px;
+}
+.header-nav .nav-profile{
+  color: white;
+}
+.card{
+  --bs-card-bg: #1f1f1f;
+  color: white;
+}
+.card-title{
+  color: white;
+}
+.card-title span{
+  color: white;
+}
+.dashboard .info-card h6{
+  color: white;
+}
+body{
+  background-color: #171717;
+}
+.pagetitle h1{
+  color: white;
+}
+.dropdown-menu{
+  --bs-dropdown-bg: #1f1f1f;
+  
+}
+.dropdown-item{
+  color: white;
+}
+.header-nav .profile .dropdown-header h6{
+  color: white;
+}
+.nav-tabs-bordered .nav-link.active{
+  background-color: #303030;
+    color: #ffffff;
+}
+.profile .profile-card h2{
+  color: white;
+}
+.profile .profile-overview .card-title{
+  color: white;
+}
+.profile .profile-overview .label{
+  color: white;
+}
+.nav-tabs-bordered .nav-link{
+  color: white;
+}
+.profile .profile-edit label{
+  color: white;
+}
+  </style>
 </head>
 
 <body>
