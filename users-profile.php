@@ -126,14 +126,14 @@ include('php/editProfile.php');
   </li>
 
   <li class="nav-item">
-
-  <li class="nav-heading">Pages</li>
-
-  <li class="nav-item">
     <a class="nav-link " href="users-profile.php">
       <i class="bi bi-person"></i>
       <span>Profile</span>
     </a>
+  </li>
+
+  <li class="nav-item">
+   
 
     <a class="nav-link collapsed" href="transaction.php">
       <i class="bi bi-currency-dollar"></i>
@@ -142,6 +142,7 @@ include('php/editProfile.php');
    
 
   </li>
+  
   <li class="nav-item">
   <a class="nav-link collapsed" href="transaction-history.php">
     <i class="bi bi-clock-history"></i>
