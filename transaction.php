@@ -33,7 +33,100 @@ include('php/transactionHistory.php');
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .card {
+      margin: 24px -82px -58px -50px;
+      margin-bottom: 30px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+    }
 
+    .error-message {
+      color: #dc3545;
+      margin: auto;
+      text-align: left;
+      display: none;
+    }
+
+    .sidebar{
+  background-color: #111111;
+  box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
+}
+.sidebar-nav .nav-link.collapsed{
+  background-color: #111111;
+  color: white;
+}
+.sidebar-nav .nav-link{
+  background-color: #303030;
+  color: white;
+}
+.sidebar-nav .nav-link i{
+  color: #8086b0;
+}
+.header{
+  background-color: #111111;
+  box-shadow: 0 5px 30px 0 rgb(62 62 62 / 20%);
+}
+.logo span{
+  color: white;
+}
+.header .toggle-sidebar-btn{
+  color: white;
+  margin: 16px 37px 18px -135px;
+}
+.header-nav .nav-profile{
+  color: white;
+}
+.card{
+  background-color: #1f1f1f;
+  color: white;
+}
+.card-title{
+  color: white;
+}
+.card-title span{
+  color: white;
+}
+.dashboard .info-card h6{
+  color: white;
+}
+body{
+  background-color: #171717;
+}
+.pagetitle h1{
+  color: white;
+}
+.dropdown-menu{
+  --bs-dropdown-bg: #1f1f1f;
+  
+}
+.dropdown-item{
+  color: white;
+}
+.header-nav .profile .dropdown-header h6{
+  color: white;
+}
+.text-center small{
+color: white;
+}
+.btn-primary{
+  color: #fff;
+    background-color: #111111;
+    border-color: #56595c;
+}
+.card-body{
+ 
+  box-shadow: 0 5px 30px 0 rgb(62 62 62 / 20%);
+}
+.dropdown-menu{
+  background-color: #1f1f1f;
+}
+
+
+
+
+  </style>
 
 </head>
 
