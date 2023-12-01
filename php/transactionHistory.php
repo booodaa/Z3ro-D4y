@@ -23,9 +23,7 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $transactions[] = $row;
     }
-} else {
-    echo "No transactions found for this user.";
-}
+} 
 
 $stmt->close();
 $conn->close();
