@@ -1,6 +1,8 @@
 <!-- index.php -->
 <?php
 include('php/index.php');
+include('php/transactionHistory.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -63,11 +65,61 @@ include('php/index.php');
 
                 <li class="nav-item dropdown pe-3">
 
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-
-                        <img src="img/profile.png" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['Client_name']; ?></span>
-                    </a>
+                    <div class="d-flex align-items-center">
+                        <!-- Notification Dropdown -->
+                        <div class="dropdown">
+                            <a class="nav-link nav-icon dropdown-toggle" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell-fill"></i> <!-- This is the notification bell icon -->
+                                <span class="badge bg-danger rounded-circle" style="width: 20px; height: 20px; padding: 5px;"><?php echo count($transactions); ?></span> <!-- This is the badge showing the number of notifications -->
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="notificationDropdown">
+                                <?php $count = 0; ?>
+                                <?php foreach ($transactions as $transaction) : ?>
+                                    <?php if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && $count < 5) : ?>
+                                        <li><a class="dropdown-item text-success" href="#">
+                                                Amount: <?php echo $transaction['Amount']; ?>,
+                                                Receiver ID: <?php echo $transaction['Receiver_ID']; ?>
+                                            </a></li>
+                                        <?php $count++; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="transaction-history.php">View All Transactions</a></li>
+                            </ul>
+                        </div>
+                        <!-- Profile Dropdown -->
+                        <div class="dropdown">
+                            <a class="nav-link nav-profile d-flex align-items-center pe-0 dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="img/profile.png" alt="Profile" class="rounded-circle">
+                                <span class="d-none d-md-block ps-2"><?php echo $_SESSION['Client_name']; ?></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                                <li class="dropdown-header">
+                                    <h6><?php echo $_SESSION['Client_name']; ?></h6>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+                                        <i class="bi bi-person"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Log out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
@@ -121,52 +173,41 @@ include('php/index.php');
 
     </header>
 
-   <aside id="sidebar" class="sidebar">
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-heading"></li>
 
-<ul class="sidebar-nav" id="sidebar-nav">
-
- 
-
-<li class="nav-item">
-
-<a class="nav-link collapsed" href="index.php">
-<i class="bi bi-grid"></i>
-  <span>Dashboard</span>
-</a>
-</li>
-
-<li class="nav-item">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="index.php">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
 
-<a class="nav-link collapsed" href="users-profile.php">
-<i class="bi bi-person"></i>
- <span>Profile</span>
-</a>
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="users-profile.php">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="transaction.php">
+                    <i class="bi bi-currency-dollar"></i>
+                    <span>Transaction</span>
+                </a>
+            </li>
 
-</li>
+            <li class="nav-item">
+                <a class="nav-link" href="transaction-history.php">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Transaction History</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
 
-  <li class="nav-item">
-   
-
-    <a class="nav-link collapsed" href="transaction.php">
-      <i class="bi bi-currency-dollar"></i>
-      <span>Transaction</span>
-    </a>
-   
-
-  </li>
-  <li class="nav-item">
-    <a class="nav-link " href="transaction-history.php">
-    <i class="bi bi-clock-history"></i>
-      <span>Transaction History</span>
-    </a>
-  </li>
-  
-  
-</ul>
-
-</aside>
     <main id="main" class="main">
 
         <div class="pagetitle">
@@ -175,51 +216,33 @@ include('php/index.php');
 
         </div>
 
-       <table class="table table-striped">
+        <table id="transactionTable" class="table table-striped">
             <thead>
                 <tr>
                     <th>Date</th>
-                    <th>Type</th>
-                    <th>ID</th>
+                    <th>Transaction ID</th>
                     <th>Amount</th>
-                  
-
+                    <th>Receiver ID</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="table-success">
-                    <td>2023-03-10</td>
-                    <td>Salary</td>
-                    <td>5000</td>
-                    <td>5000</td>
-                </tr>
-                <tr class="table-danger">
-                    <td>2023-03-15</td>
-                    <td>Groceries</td>
-                    <td>-150</td>
-                    <td>5000</td>
-                </tr>
-                <tr class="table-danger">
-                    <td>2023-03-20</td>
-                    <td>Rent</td>
-                    <td>-1200</td>
-                    <td>5000</td>
-                </tr>
-                <tr class="table-success">
-                    <td>2023-03-25</td>
-                    <td>Bonus</td>
-                    <td>1000</td>
-                    <td>5000</td>
-                </tr>
-                <tr class="table-danger">
-                    <td>2023-03-30</td>
-                    <td>Gas</td>
-                    <td>-50</td>
-                    <td>5000</td>
-                </tr>
+                <?php if (isset($transactions) && is_array($transactions)) : ?>
+                    <?php foreach ($transactions as $transaction) : ?>
+                        <?php $isIncome = $transaction['Receiver_ID'] == $_SESSION['User_ID']; ?>
+                        <tr class="<?php echo $isIncome ? 'table-success' : 'table-danger'; ?>">
+                            <td><?php echo date('Y/m/d h:i:s A', strtotime($transaction['Transaction_Date'])); ?></td>
+                            <td><?php echo $transaction['Transaction_ID']; ?></td>
+                            <td><?php echo ($isIncome ? '+' : '-') . $transaction['Amount']; ?></td>
+                            <td><?php echo $isIncome ? 'to you' : $transaction['Receiver_ID']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="4">No transactions found for this user.</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
-
 
     </main>
 
@@ -245,6 +268,25 @@ include('php/index.php');
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#transactionTable').DataTable({
+                "order": [
+                    [0, "desc"]
+                ], // Sort by the 1st column (Date) in descending order
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ] // Entries in the length drop-down menu
+            });
+        });
+    </script>
 </body>
 
 </html>
