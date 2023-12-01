@@ -2,6 +2,8 @@
 <?php
 include('php/transaction.php');
 include('php/process_transfer.php');
+include('php/transactionHistory.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -32,22 +34,6 @@ include('php/process_transfer.php');
 
   <link rel="stylesheet" href="assets/css/style.css">
 
-  <style>
-    .card {
-      margin: 24px -82px -58px -50px;
-      margin-bottom: 30px;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
-    }
-
-    .error-message {
-      color: #dc3545;
-      margin: auto;
-      text-align: left;
-      display: none;
-    }
-  </style>
 
 </head>
 
@@ -70,17 +56,70 @@ include('php/process_transfer.php');
 
       <ul class="d-flex align-items-center">
 
-        <li class="nav-item dropdown">
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-          </ul>
+        <li class="nav-item d-block d-lg-none">
+
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+
         </li>
 
         <li class="nav-item dropdown pe-3">
 
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="img/profile.png" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['Client_name']; ?></span>
-          </a>
+          <div class="d-flex align-items-center">
+            <!-- Notification Dropdown -->
+            <div class="dropdown">
+              <a class="nav-link nav-icon dropdown-toggle" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bell-fill"></i> <!-- Notification bell icon -->
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="notificationDropdown">
+                <?php $count = 0; ?>
+                <?php foreach ($transactions as $transaction) : ?>
+                  <?php if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && $count < 5) : ?>
+                    <li><a class="dropdown-item text-success" href="#">
+                        Amount: <?php echo $transaction['Amount']; ?>,
+                        Receiver ID: <?php echo $transaction['Receiver_ID']; ?>
+                      </a></li>
+                    <?php $count++; ?>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="transaction-history.php">View All Transactions</a></li>
+              </ul>
+            </div>
+            <!-- Profile Dropdown -->
+            <div class="dropdown">
+              <a class="nav-link nav-profile d-flex align-items-center pe-0 dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="img/profile.png" alt="Profile" class="rounded-circle">
+                <span class="d-none d-md-block ps-2"><?php echo $_SESSION['Client_name']; ?></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                <li class="dropdown-header">
+                  <h6><?php echo $_SESSION['Client_name']; ?></h6>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+                    <i class="bi bi-person"></i>
+                    <span>My Profile</span>
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Log out</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
@@ -138,44 +177,38 @@ include('php/process_transfer.php');
 
     <aside id="sidebar" class="sidebar">
 
-<ul class="sidebar-nav" id="sidebar-nav">
+      <ul class="sidebar-nav" id="sidebar-nav">
 
-  <li class="nav-item">
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="index.php">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
 
-    <a class="nav-link collapsed" href="index.php">
-    <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-  </li>
-
-  <li class="nav-item">
    
 
-   <a class="nav-link collapsed" href="users-profile.php">
-   <i class="bi bi-person"></i>
-     <span>Profile</span>
-   </a>
-  
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="users-profile.php">
+            <i class="bi bi-person"></i>
+            <span>Profile</span>
+          </a>
+          <a class="nav-link " href="transaction.php">
+            <i class="bi bi-currency-dollar"></i>
+            <span>Transaction</span>
+          </a>
 
- </li>
-  <li class="nav-item">
-    <a class="nav-link " href="transaction.php">
-    <i class="bi bi-currency-dollar"></i>
-      <span>Transaction</span>
-    </a>
-  </li>
 
-  
-  
-  <li class="nav-item">
-  <a class="nav-link collapsed" href="transaction-history.php">
-    <i class="bi bi-clock-history"></i>
-      <span>Transaction History</span>
-    </a>
-  </li>
-</ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="transaction-history.php">
+            <i class="bi bi-clock-history"></i>
+            <span>Transaction History</span>
+          </a>
+        </li>
+      </ul>
 
-</aside>
+    </aside>
 
     <div class="container">
 

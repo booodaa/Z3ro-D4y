@@ -1,6 +1,8 @@
 <!-- index.php -->
 <?php
 include('php/index.php');
+include('php/transactionHistory.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -63,11 +65,60 @@ include('php/index.php');
 
         <li class="nav-item dropdown pe-3">
 
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-
-            <img src="img/profile.png" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['Client_name']; ?></span>
-          </a>
+          <div class="d-flex align-items-center">
+            <!-- Notification Dropdown -->
+            <div class="dropdown">
+              <a class="nav-link nav-icon dropdown-toggle" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bell-fill"></i> <!-- Notification bell icon -->
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="notificationDropdown">
+                <?php $count = 0; ?>
+                <?php foreach ($transactions as $transaction) : ?>
+                  <?php if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && $count < 5) : ?>
+                    <li><a class="dropdown-item text-success" href="#">
+                        Amount: <?php echo $transaction['Amount']; ?>,
+                        Receiver ID: <?php echo $transaction['Receiver_ID']; ?>
+                      </a></li>
+                    <?php $count++; ?>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="transaction-history.php">View All Transactions</a></li>
+              </ul>
+            </div>
+            <!-- Profile Dropdown -->
+            <div class="dropdown">
+              <a class="nav-link nav-profile d-flex align-items-center pe-0 dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="img/profile.png" alt="Profile" class="rounded-circle">
+                <span class="d-none d-md-block ps-2"><?php echo $_SESSION['Client_name']; ?></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                <li class="dropdown-header">
+                  <h6><?php echo $_SESSION['Client_name']; ?></h6>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+                    <i class="bi bi-person"></i>
+                    <span>My Profile</span>
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Log out</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
@@ -121,49 +172,39 @@ include('php/index.php');
 
   </header>
 
-<aside id="sidebar" class="sidebar">
+  <aside id="sidebar" class="sidebar">
 
-<ul class="sidebar-nav" id="sidebar-nav">
+    <ul class="sidebar-nav" id="sidebar-nav">
 
-<li class="nav-item">
-    <a class="nav-link " href="index.php">
-    <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-  </li>
+      <li class="nav-item">
+        <a class="nav-link " href="index.php">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
 
- 
 
-  <li class="nav-item">
-   
 
-    <a class="nav-link collapsed" href="users-profile.php">
-    <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-   
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="users-profile.php">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+        <a class="nav-link collapsed" href="transaction.php">
+          <i class="bi bi-currency-dollar"></i>
+          <span>Transaction</span>
+        </a>
 
-  </li>
-  <li class="nav-item">
-   
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="transaction-history.php">
+          <i class="bi bi-clock-history"></i>
+          <span>Transaction History</span>
+        </a>
+      </li>
+    </ul>
 
-    <a class="nav-link collapsed" href="transaction.php">
-      <i class="bi bi-currency-dollar"></i>
-      <span>Transaction</span>
-    </a>
-   
-
-  </li>
-  
-  <li class="nav-item">
-  <a class="nav-link collapsed" href="transaction-history.php">
-    <i class="bi bi-clock-history"></i>
-      <span>Transaction History</span>
-    </a>
-  </li>
-</ul>
-
-</aside>
+  </aside>
 
   <main id="main" class="main">
 
@@ -171,12 +212,7 @@ include('php/index.php');
 
       <h1>Dashboard</h1>
 
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
+
 
     </div>
 
@@ -219,86 +255,7 @@ include('php/index.php');
 
             </div>
 
-            <div class="col-12">
 
-              <div class="card">
-
-                <div class="card-body">
-
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
-
-                  <div id="reportsChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-
-                        series: [{
-                          name: 'Sales',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenue',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Customers',
-                          data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
-
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-
-                        markers: {
-                          size: 4
-                        },
-
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-
-                        dataLabels: {
-                          enabled: false
-                        },
-
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-
-                      }).render();
-
-                    });
-                  </script>
-
-                </div>
-
-              </div>
-
-            </div>
 
             <div class="col-12">
 

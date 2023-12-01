@@ -2,6 +2,7 @@
 <?php
 include('php/users-profile.php');
 include('php/editProfile.php');
+include('php/changePassword.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,45 +30,61 @@ include('php/editProfile.php');
 </head>
 
 <body>
-  <header id="header" class="header fixed-top d-flex align-items-center">
+<header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.php" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">Z3ro D4y</span>
+<div class="d-flex align-items-center justify-content-between">
+
+  <a href="index.php" class="logo d-flex align-items-center">
+    <img src="assets/img/logo.png" alt="error">
+    <span class="d-none d-lg-block">Z3ro D4y</span>
+  </a>
+
+  <i class="bi bi-list toggle-sidebar-btn"></i>
+
+</div>
+
+<nav class="header-nav ms-auto">
+
+  <ul class="d-flex align-items-center">
+
+    <li class="nav-item d-block d-lg-none">
+
+      <a class="nav-link nav-icon search-bar-toggle " href="#">
+        <i class="bi bi-search"></i>
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div>
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
 
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
+    </li>
+
+    <li class="nav-item dropdown pe-3">
+
+      <div class="d-flex align-items-center">
+        <!-- Notification Dropdown -->
+        <div class="dropdown">
+          <a class="nav-link nav-icon dropdown-toggle" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell-fill"></i> <!-- Notification bell icon -->
           </a>
-        </li>
-        <li class="nav-item dropdown">
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-
+          <ul class="dropdown-menu" aria-labelledby="notificationDropdown">
+            <?php $count = 0; ?>
+            <?php foreach ($transactions as $transaction) : ?>
+              <?php if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && $count < 5) : ?>
+                <li><a class="dropdown-item text-success" href="#">
+                    Amount: <?php echo $transaction['Amount']; ?>,
+                    Receiver ID: <?php echo $transaction['Receiver_ID']; ?>
+                  </a></li>
+                <?php $count++; ?>
+              <?php endif; ?>
+            <?php endforeach; ?>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="dropdown-footer">
-              <a href="#">Show all messages</a>
-            </li>
-
+            <li><a class="dropdown-item" href="transaction-history.php">View All Transactions</a></li>
           </ul>
-        </li>
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+        </div>
+        <!-- Profile Dropdown -->
+        <div class="dropdown">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0 dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="img/profile.png" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['Client_name']; ?></span>
+            <span class="d-none d-md-block ps-2"><?php echo $_SESSION['Client_name']; ?></span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
@@ -76,7 +93,6 @@ include('php/editProfile.php');
             <li>
               <hr class="dropdown-divider">
             </li>
-
             <li>
               <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
                 <i class="bi bi-person"></i>
@@ -86,83 +102,111 @@ include('php/editProfile.php');
             <li>
               <hr class="dropdown-divider">
             </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
             <li>
               <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Log out</span>
               </a>
             </li>
-
           </ul>
+        </div>
+      </div>
+
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+        <li class="dropdown-header">
+          <h6><?php echo $_SESSION['Client_name']; ?></h6>
         </li>
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+        <li>
+          <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+            <span>My Profile</span>
+          </a>
+        </li>
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+        <li>
+          <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+            <i class="bi bi-gear"></i>
+            <span>Account Settings</span>
+          </a>
+        </li>
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+        <li>
+          <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Log out</span>
+          </a>
+        </li>
+
       </ul>
-    </nav>
-  </header>
- <aside id="sidebar" class="sidebar">
 
-<ul class="sidebar-nav" id="sidebar-nav">
+    </li>
 
-  <li class="nav-item">
+  </ul>
 
-    <a class="nav-link collapsed" href="index.php">
-    <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-  </li>
+</nav>
 
-  <li class="nav-item">
-    <a class="nav-link " href="users-profile.php">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-  </li>
+</header>
 
-  <li class="nav-item">
-   
+  <aside id="sidebar" class="sidebar">
 
-    <a class="nav-link collapsed" href="transaction.php">
-      <i class="bi bi-currency-dollar"></i>
-      <span>Transaction</span>
-    </a>
-   
+    <ul class="sidebar-nav" id="sidebar-nav">
 
-  </li>
-  
-  <li class="nav-item">
-  <a class="nav-link collapsed" href="transaction-history.php">
-    <i class="bi bi-clock-history"></i>
-      <span>Transaction History</span>
-    </a>
-  </li>
-</ul>
+      <li class="nav-item">
 
-</aside>
+        <a class="nav-link collapsed" href="index.php">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+
+
+      <li class="nav-item">
+        <a class="nav-link " href="users-profile.php">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+
+        <a class="nav-link collapsed" href="transaction.php">
+          <i class="bi bi-currency-dollar"></i>
+          <span>Transaction</span>
+        </a>
+
+
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="transaction-history.php">
+          <i class="bi bi-clock-history"></i>
+          <span>Transaction History</span>
+        </a>
+      </li>
+    </ul>
+
+  </aside>
+
   <main id="main" class="main">
 
     <div class="pagetitle">
       <h1>Profile</h1>
 
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="php/index.php">Home</a></li>
-          <li class="breadcrumb-item active">Profile</li>
-        </ol>
-      </nav>
+      
     </div>
     <section class="section profile">
       <div class="row">
@@ -267,10 +311,8 @@ include('php/editProfile.php');
                   </form>
                 </div>
 
-
-
                 <div class="tab-pane fade pt-3" id="profile-change-password">
-                  <form action="php/changePassword.php" method="post">
+                  <form action="users-profile.php" method="post">
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
@@ -308,19 +350,18 @@ include('php/editProfile.php');
     </section>
 
   </main>
- <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.min.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!--start of  modal -->
   <div class="modal fade" id="popUpModal" tabindex="-1" aria-labelledby="popUpModalLabel" aria-hidden="true">
