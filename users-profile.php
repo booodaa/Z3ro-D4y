@@ -3,6 +3,8 @@
 include('php/users-profile.php');
 include('php/editProfile.php');
 include('php/changePassword.php');
+include('php/transactionHistory.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,228 +28,188 @@ include('php/changePassword.php');
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
 
- <style>
-.sidebar{
-  background-color: #111111;
-  box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
-}
-.sidebar-nav .nav-link.collapsed{
-  background-color: #111111;
-  color: white;
-}
-.sidebar-nav .nav-link{
-  background-color: #303030;
-  color: white;
-}
-.sidebar-nav .nav-link i{
-  color: #8086b0;
-}
-.header{
-  background-color: #111111;
-  box-shadow: 0 5px 30px 0 rgb(62 62 62 / 20%);
-}
-.logo span{
-  color: white;
-}
-.header .toggle-sidebar-btn{
-  color: white;
-  margin: 16px 37px 18px -135px;
-}
-.header-nav .nav-profile{
-  color: white;
-}
-.card{
-  --bs-card-bg: #1f1f1f;
-  color: white;
-}
-.card-title{
-  color: white;
-}
-.card-title span{
-  color: white;
-}
-.dashboard .info-card h6{
-  color: white;
-}
-body{
-  background-color: #171717;
-}
-.pagetitle h1{
-  color: white;
-}
-.dropdown-menu{
-  --bs-dropdown-bg: #1f1f1f;
-  
-}
-.dropdown-item{
-  color: white;
-}
-.header-nav .profile .dropdown-header h6{
-  color: white;
-}
-.nav-tabs-bordered .nav-link.active{
-  background-color: #303030;
-    color: #ffffff;
-}
-.profile .profile-card h2{
-  color: white;
-}
-.profile .profile-overview .card-title{
-  color: white;
-}
-.profile .profile-overview .label{
-  color: white;
-}
-.nav-tabs-bordered .nav-link{
-  color: white;
-}
-.profile .profile-edit label{
-  color: white;
-}
-  </style>
+
 </head>
 
-<body>
-<header id="header" class="header fixed-top d-flex align-items-center">
+<body style="display: none">
 
-<div class="d-flex align-items-center justify-content-between">
 
-  <a href="index.php" class="logo d-flex align-items-center">
-    <img src="assets/img/logo.png" alt="error">
-    <span class="d-none d-lg-block">Z3ro D4y</span>
-  </a>
+  <script>
+    // Check the $_SESSION['dark_mode'] value when the page loads
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const darkMode = <?php echo $_SESSION['dark_mode']; ?>;
+      if (darkMode == 1) {
+        // Trigger the change event on the darkModeSwitch checkbox
+        document.getElementById('darkModeSwitch').checked = true;
+        document.getElementById('darkModeSwitch').dispatchEvent(new Event('change'));
+      }
+      document.body.style.display = "";
+    });
+  </script>
 
-  <i class="bi bi-list toggle-sidebar-btn"></i>
 
-</div>
+  <header id="header" class="header fixed-top d-flex align-items-center">
 
-<nav class="header-nav ms-auto">
+    <div class="d-flex align-items-center justify-content-between">
 
-  <ul class="d-flex align-items-center">
-
-    <li class="nav-item d-block d-lg-none">
-
-      <a class="nav-link nav-icon search-bar-toggle " href="#">
-        <i class="bi bi-search"></i>
+      <a href="index.php" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="error">
+        <span class="d-none d-lg-block">Z3ro D4y</span>
       </a>
 
-    </li>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+      <!-- Dark Mode Switch -->
+      <div class="form-check form-switch ms-3">
+        <input class="form-check-input" type="checkbox" id="darkModeSwitch" data-bs-toggle="toggle" <?php echo $_SESSION['dark_mode'] ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
 
-    <li class="nav-item dropdown pe-3">
+      </div>
+    </div>
 
-      <div class="d-flex align-items-center">
-        <!-- Notification Dropdown -->
-        <div class="dropdown">
-          <a class="nav-link nav-icon dropdown-toggle" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-bell-fill"></i> <!-- Notification bell icon -->
+    <nav class="header-nav ms-auto">
+
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="notificationDropdown">
-            <?php $count = 0; ?>
-            <?php foreach ($transactions as $transaction) : ?>
-              <?php if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && $count < 5) : ?>
-                <li><a class="dropdown-item text-success" href="#">
-                    Amount: <?php echo $transaction['Amount']; ?>,
-                    Receiver ID: <?php echo $transaction['Receiver_ID']; ?>
-                  </a></li>
-                <?php $count++; ?>
-              <?php endif; ?>
-            <?php endforeach; ?>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="transaction-history.php">View All Transactions</a></li>
-          </ul>
-        </div>
-        <!-- Profile Dropdown -->
-        <div class="dropdown">
-          <a class="nav-link nav-profile d-flex align-items-center pe-0 dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="img/profile.png" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block ps-2"><?php echo $_SESSION['Client_name']; ?></span>
-          </a>
+
+        </li>
+
+        <li class="nav-item dropdown pe-3">
+
+          <div class="d-flex align-items-center">
+          <span class="d-lg-block balance-text" style="margin-right: 20px; font-weight: bold;">Your Balance: <?php echo $_SESSION['Balance']; ?> $</span>
+
+            <!-- Notification Dropdown -->
+            <div class="dropdown">
+              <a class="nav-link position-relative" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 20px;">
+                <i class="bi bi-bell" style="font-size: 1.5rem;"></i> <!-- Increase the size of the bell icon -->
+                <?php
+                $unseenCount = 0; // Initialize the counter
+                foreach ($transactions as $transaction) {
+                  // Check if the transaction is for the current user and is unseen
+                  if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && !$transaction['seen']) {
+                    $unseenCount++; // Increment the unseen count
+                  }
+                }
+                ?>
+                <?php if ($unseenCount > 0) : ?>
+                  <span class="badge bg-danger rounded-pill" style="position: absolute; top: -10px; right: -10px; padding: 2px 6px; font-size: 0.75rem; transform: scale(0.8);">
+                    <?php echo $unseenCount; ?>
+                  </span>
+                <?php endif; ?>
+              </a>
+
+
+              <ul class="dropdown-menu" aria-labelledby="notificationDropdown">
+                <?php $count = 0; ?>
+                <?php foreach ($transactions as $transaction) : ?>
+                  <?php if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && $transaction['seen'] == 0 && $count < 5) : ?>
+                    <li><a class="dropdown-item text-success" href="#">
+                        Amount: <?php echo $transaction['Amount']; ?>,
+                        Receiver ID: <?php echo $transaction['Receiver_ID']; ?>
+                      </a></li>
+                    <?php $count++; ?>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="transaction-history.php">View All Transactions</a></li>
+              </ul>
+            </div>
+            <!-- Profile Dropdown -->
+            <div class="dropdown">
+              <a class="nav-link nav-profile d-flex align-items-center pe-0 dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="img/profile.png" alt="Profile" class="rounded-circle">
+                <span class="d-none d-md-block ps-2"><?php echo $_SESSION['Client_name']; ?></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                <li class="dropdown-header">
+                  <h6>Your ID: <?php echo $_SESSION['User_ID']; ?></h6>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+                    <i class="bi bi-person"></i>
+                    <span>My Profile</span>
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Log out</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
             <li class="dropdown-header">
               <h6><?php echo $_SESSION['Client_name']; ?></h6>
             </li>
+
             <li>
               <hr class="dropdown-divider">
             </li>
+
             <li>
               <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
-                <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
             </li>
+
             <li>
               <hr class="dropdown-divider">
             </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+                <i class="bi bi-gear"></i>
+                <span>Account Settings</span>
+              </a>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
             <li>
               <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Log out</span>
               </a>
             </li>
+
           </ul>
-        </div>
-      </div>
 
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-
-        <li class="dropdown-header">
-          <h6><?php echo $_SESSION['Client_name']; ?></h6>
-        </li>
-
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-
-        <li>
-          <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
-            <span>My Profile</span>
-          </a>
-        </li>
-
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-
-        <li>
-          <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
-            <i class="bi bi-gear"></i>
-            <span>Account Settings</span>
-          </a>
-        </li>
-
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-
-        <li>
-          <a class="dropdown-item d-flex align-items-center" href="php/logout.php">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Log out</span>
-          </a>
         </li>
 
       </ul>
 
-    </li>
+    </nav>
 
-  </ul>
-
-</nav>
-
-</header>
+  </header>
 
   <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-heading"></li>
 
       <li class="nav-item">
-
         <a class="nav-link collapsed" href="index.php">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
@@ -255,20 +217,20 @@ body{
       </li>
 
 
-
-      <li class="nav-item">
+      <li class="nav-item ">
         <a class="nav-link " href="users-profile.php">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
+      </li>
 
+      <li class="nav-item">
         <a class="nav-link collapsed" href="transaction.php">
           <i class="bi bi-currency-dollar"></i>
           <span>Transaction</span>
         </a>
-
-
       </li>
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="transaction-history.php">
           <i class="bi bi-clock-history"></i>
@@ -276,7 +238,6 @@ body{
         </a>
       </li>
     </ul>
-
   </aside>
 
   <main id="main" class="main">
@@ -284,7 +245,7 @@ body{
     <div class="pagetitle">
       <h1>Profile</h1>
 
-      
+
     </div>
     <section class="section profile">
       <div class="row">
@@ -439,7 +400,11 @@ body{
   <script src="assets/vendor/quill/quill.min.js"></script>
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+
 
   <!--start of  modal -->
   <div class="modal fade" id="popUpModal" tabindex="-1" aria-labelledby="popUpModalLabel" aria-hidden="true">
@@ -460,6 +425,150 @@ body{
   </div>
   <!--end of  modal -->
 
+
+
+  <script>
+    // Enable Bootstrap Toggle functionality
+    $(function() {
+      $('[data-bs-toggle="toggle"]').bootstrapToggle();
+    });
+
+    document.getElementById('darkModeSwitch').addEventListener('change', function() {
+      const darkMode = this.checked ? 1 : 0;
+      fetch('php/toggleDarkMode.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'darkMode=' + darkMode,
+      });
+      if (this.checked) {
+        // Apply dark mode styles
+        document.documentElement.style.setProperty('--bg-color', 'black');
+        document.documentElement.style.setProperty('--text-color', 'white');
+
+        // Add dark mode styles
+        var style = document.createElement('style');
+        style.innerHTML = `
+          .sidebar{
+              background-color: #111111;
+          }
+          .sidebar-nav .nav-link.collapsed{
+              background-color: #111111;
+              color: white;
+          }
+          .sidebar-nav .nav-link{
+              background-color: #303030;
+              color: white;
+          }
+          .sidebar-nav .nav-link i{
+              color: #8086b0;
+          }
+          .header{
+              background-color: #111111;
+          }
+          .logo span{
+              color: white;
+          }
+          .header .toggle-sidebar-btn{
+              color: white;
+          }
+          .header-nav .nav-profile{
+              color: white;
+          }
+          .card{
+              --bs-card-bg: #1f1f1f;
+              color: white;
+          }
+          .card-title{
+              color: white;
+          }
+          .card-title span{
+              color: white;
+          }
+          .dashboard .info-card h6{
+              color: white;
+          }
+          body{
+              background-color: #222;
+          }
+          .pagetitle h1{
+              color: white;
+          }
+          .dropdown-menu{
+              --bs-dropdown-bg: #1f1f1f;
+          }
+          .dropdown-item{
+              color: white;
+          }
+          .header-nav .profile .dropdown-header h6{
+              color: white;
+          }
+          .nav-tabs-bordered .nav-link.active{
+              background-color: #303030;
+              color: #ffffff;
+          }
+          .profile .profile-card h2{
+              color: white;
+          }
+          .profile .profile-overview .card-title{
+              color: white;
+          }
+          .profile .profile-overview .label{
+              color: white;
+          }
+          .nav-tabs-bordered .nav-link{
+              color: white;
+          }
+          .profile .profile-edit label{
+              color: white;
+          }
+          .form-check-label {
+              color: white;
+          }
+
+          #notificationDropdown {
+          color: white; /* Set text color to white */
+        }
+
+        #notificationDropdown .bi-bell {
+          color: white; /* Set bell icon color to white */
+        }
+
+        #notificationDropdown .badge.bg-danger {
+          background-color: #dc3545; /* Set badge background color to red */
+          color: white; /* Set badge text color to white */
+        }
+          
+      `;
+        document.head.appendChild(style);
+      } else {
+        // Remove dark mode styles
+        var styles = document.querySelectorAll('style');
+        styles.forEach(function(style) {
+          if (style.innerHTML.includes('background-color: #111111;')) {
+            document.head.removeChild(style);
+          }
+        });
+
+        // Reset colors
+        document.documentElement.style.setProperty('--bg-color', 'white');
+        document.documentElement.style.setProperty('--text-color', 'black');
+      }
+    });
+
+    // Check the $_SESSION['dark_mode'] value when the page loads
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const darkMode = <?php echo $_SESSION['dark_mode']; ?>;
+      if (darkMode == 1) {
+        // Trigger the change event on the darkModeSwitch checkbox
+        document.getElementById('darkModeSwitch').checked = true;
+        document.getElementById('darkModeSwitch').dispatchEvent(new Event('change'));
+
+      }
+
+    });
+  </script>
 
 </body>
 

@@ -34,9 +34,27 @@ include('php/transactionHistory.php');
 
     <link rel="stylesheet" href="assets/css/style.css">
 
+
+
+
 </head>
 
-<body>
+
+<body style="display: none">
+
+
+    <script>
+        // Check the $_SESSION['dark_mode'] value when the page loads
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const darkMode = <?php echo $_SESSION['dark_mode']; ?>;
+            if (darkMode == 1) {
+                // Trigger the change event on the darkModeSwitch checkbox
+                document.getElementById('darkModeSwitch').checked = true;
+                document.getElementById('darkModeSwitch').dispatchEvent(new Event('change'));
+            }
+            document.body.style.display = "";
+        });
+    </script>
 
     <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -48,6 +66,12 @@ include('php/transactionHistory.php');
             </a>
 
             <i class="bi bi-list toggle-sidebar-btn"></i>
+            <!-- Dark Mode Switch -->
+            <div class="form-check form-switch ms-3">
+                <input class="form-check-input" type="checkbox" id="darkModeSwitch" data-bs-toggle="toggle">
+                <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+
+            </div>
 
         </div>
 
@@ -66,16 +90,33 @@ include('php/transactionHistory.php');
                 <li class="nav-item dropdown pe-3">
 
                     <div class="d-flex align-items-center">
+                        <span class="d-lg-block balance-text" style="margin-right: 20px; font-weight: bold;">Your Balance: <?php echo $_SESSION['Balance']; ?> $</span>
+
                         <!-- Notification Dropdown -->
                         <div class="dropdown">
-                            <a class="nav-link nav-icon dropdown-toggle" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-bell-fill"></i> <!-- This is the notification bell icon -->
-                                <span class="badge bg-danger rounded-circle" style="width: 20px; height: 20px; padding: 5px;"><?php echo count($transactions); ?></span> <!-- This is the badge showing the number of notifications -->
+                            <a class="nav-link position-relative" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 20px;">
+                                <i class="bi bi-bell" style="font-size: 1.5rem;"></i> <!-- Increase the size of the bell icon -->
+                                <?php
+                                $unseenCount = 0; // Initialize the counter
+                                foreach ($transactions as $transaction) {
+                                    // Check if the transaction is for the current user and is unseen
+                                    if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && !$transaction['seen']) {
+                                        $unseenCount++; // Increment the unseen count
+                                    }
+                                }
+                                ?>
+                                <?php if ($unseenCount > 0) : ?>
+                                    <span class="badge bg-danger rounded-pill" style="position: absolute; top: -10px; right: -10px; padding: 2px 6px; font-size: 0.75rem; transform: scale(0.8);">
+                                        <?php echo $unseenCount; ?>
+                                    </span>
+                                <?php endif; ?>
                             </a>
+
+
                             <ul class="dropdown-menu" aria-labelledby="notificationDropdown">
                                 <?php $count = 0; ?>
                                 <?php foreach ($transactions as $transaction) : ?>
-                                    <?php if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && $count < 5) : ?>
+                                    <?php if ($transaction['Receiver_ID'] == $_SESSION['User_ID'] && $transaction['seen'] == 0 && $count < 5) : ?>
                                         <li><a class="dropdown-item text-success" href="#">
                                                 Amount: <?php echo $transaction['Amount']; ?>,
                                                 Receiver ID: <?php echo $transaction['Receiver_ID']; ?>
@@ -95,10 +136,12 @@ include('php/transactionHistory.php');
                                 <img src="img/profile.png" alt="Profile" class="rounded-circle">
                                 <span class="d-none d-md-block ps-2"><?php echo $_SESSION['Client_name']; ?></span>
                             </a>
+
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                                 <li class="dropdown-header">
-                                    <h6><?php echo $_SESSION['Client_name']; ?></h6>
+                                    <h6>Your ID: <?php echo $_SESSION['User_ID']; ?></h6>
                                 </li>
+
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -126,7 +169,6 @@ include('php/transactionHistory.php');
                         <li class="dropdown-header">
                             <h6><?php echo $_SESSION['Client_name']; ?></h6>
                         </li>
-
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -172,52 +214,41 @@ include('php/transactionHistory.php');
         </nav>
 
     </header>
+
     <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-heading"></li>
 
-<ul class="sidebar-nav" id="sidebar-nav">
-
- 
-
-<li class="nav-item">
-
-<a class="nav-link collapsed" href="index.php">
-<i class="bi bi-grid"></i>
-  <span>Dashboard</span>
-</a>
-</li>
-
-<li class="nav-item">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="index.php">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
 
-<a class="nav-link collapsed" href="users-profile.php">
-<i class="bi bi-person"></i>
- <span>Profile</span>
-</a>
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="users-profile.php">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="transaction.php">
+                    <i class="bi bi-currency-dollar"></i>
+                    <span>Transaction</span>
+                </a>
+            </li>
 
-</li>
-
-  <li class="nav-item">
-   
-
-    <a class="nav-link collapsed" href="transaction.php">
-      <i class="bi bi-currency-dollar"></i>
-      <span>Transaction</span>
-    </a>
-   
-
-  </li>
-  <li class="nav-item">
-    <a class="nav-link " href="transaction-history.php">
-    <i class="bi bi-clock-history"></i>
-      <span>Transaction History</span>
-    </a>
-  </li>
-  
-  
-</ul>
-
-</aside>
+            <li class="nav-item">
+                <a class="nav-link" href="transaction-history.php">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Transaction History</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
 
     <main id="main" class="main">
 
@@ -233,6 +264,7 @@ include('php/transactionHistory.php');
                     <th>Date</th>
                     <th>Transaction ID</th>
                     <th>Amount</th>
+                    <th>Sender ID</th> <!-- Add this line -->
                     <th>Receiver ID</th>
                 </tr>
             </thead>
@@ -244,12 +276,13 @@ include('php/transactionHistory.php');
                             <td><?php echo date('Y/m/d h:i:s A', strtotime($transaction['Transaction_Date'])); ?></td>
                             <td><?php echo $transaction['Transaction_ID']; ?></td>
                             <td><?php echo ($isIncome ? '+' : '-') . $transaction['Amount']; ?></td>
+                            <td><?php echo $transaction['Sender_ID']; ?></td> <!-- Add this line -->
                             <td><?php echo $isIncome ? 'to you' : $transaction['Receiver_ID']; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
                     <tr>
-                        <td colspan="4">No transactions found for this user.</td>
+                        <td colspan="5">No transactions found for this user.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
@@ -298,6 +331,152 @@ include('php/transactionHistory.php');
             });
         });
     </script>
+
+
+    <script>
+        // Enable Bootstrap Toggle functionality
+        $(function() {
+            $('[data-bs-toggle="toggle"]').bootstrapToggle();
+        });
+
+        document.getElementById('darkModeSwitch').addEventListener('change', function() {
+            const darkMode = this.checked ? 1 : 0;
+            fetch('php/toggleDarkMode.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'darkMode=' + darkMode,
+            });
+            if (this.checked) {
+
+                // Apply dark mode styles
+                document.documentElement.style.setProperty('--bg-color', 'black');
+                document.documentElement.style.setProperty('--text-color', 'white');
+
+                // Add dark mode styles
+                var style = document.createElement('style');
+                style.innerHTML = `
+          .sidebar{
+              background-color: #111111;
+          }
+          .sidebar-nav .nav-link.collapsed{
+              background-color: #111111;
+              color: white;
+          }
+          .sidebar-nav .nav-link{
+              background-color: #303030;
+              color: white;
+          }
+          .sidebar-nav .nav-link i{
+              color: #8086b0;
+          }
+          .header{
+              background-color: #111111;
+          }
+          .logo span{
+              color: white;
+          }
+          .header .toggle-sidebar-btn{
+              color: white;
+          }
+          .header-nav .nav-profile{
+              color: white;
+          }
+          .card{
+              --bs-card-bg: #1f1f1f;
+              color: white;
+          }
+          .card-title{
+              color: white;
+          }
+          .card-title span{
+              color: white;
+          }
+          .dashboard .info-card h6{
+              color: white;
+          }
+          body{
+              background-color: #222;
+          }
+          .pagetitle h1{
+              color: white;
+          }
+          .dropdown-menu{
+              --bs-dropdown-bg: #1f1f1f;
+          }
+          .dropdown-item{
+              color: white;
+          }
+          .header-nav .profile .dropdown-header h6{
+              color: white;
+          }
+          .nav-tabs-bordered .nav-link.active{
+              background-color: #303030;
+              color: #ffffff;
+          }
+          .profile .profile-card h2{
+              color: white;
+          }
+          .profile .profile-overview .card-title{
+              color: white;
+          }
+          .profile .profile-overview .label{
+              color: white;
+          }
+          .nav-tabs-bordered .nav-link{
+              color: white;
+          }
+          .profile .profile-edit label{
+              color: white;
+          }
+          .form-check-label {
+              color: white;
+          }
+
+          #notificationDropdown {
+          color: white; /* Set text color to white */
+        }
+
+        #notificationDropdown .bi-bell {
+          color: white; /* Set bell icon color to white */
+        }
+
+        #notificationDropdown .badge.bg-danger {
+          background-color: #dc3545; /* Set badge background color to red */
+          color: white; /* Set badge text color to white */
+        }
+          
+      `;
+                document.head.appendChild(style);
+            } else {
+                // Remove dark mode styles
+                var styles = document.querySelectorAll('style');
+                styles.forEach(function(style) {
+                    if (style.innerHTML.includes('background-color: #111111;')) {
+                        document.head.removeChild(style);
+                    }
+                });
+
+
+                // Reset colors
+                document.documentElement.style.setProperty('--bg-color', 'white');
+                document.documentElement.style.setProperty('--text-color', 'black');
+            }
+        });
+
+        // Check the $_SESSION['dark_mode'] value when the page loads
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const darkMode = <?php echo $_SESSION['dark_mode']; ?>;
+            if (darkMode == 1) {
+                // Trigger the change event on the darkModeSwitch checkbox
+                document.getElementById('darkModeSwitch').checked = true;
+                document.getElementById('darkModeSwitch').dispatchEvent(new Event('change'));
+            }
+        });
+    </script>
+
+
 </body>
 
 </html>
