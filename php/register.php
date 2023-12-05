@@ -9,8 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $password = htmlspecialchars($_POST['password']);
   $terms = trim(htmlspecialchars($_POST['terms']));
   $hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
-  $sql = "INSERT INTO `users` (User_name, Client_name, Email, Password) VALUES ('$User_name', '$Client_name', '$Email', '$hash')";
-
+  $sql = "INSERT INTO `users` (User_name, Client_name, Email, Password, dark_mode) VALUES ('$User_name', '$Client_name', '$Email', '$hash', 0)";
   try {
     if (mysqli_query($conn, $sql)) {
       //echo "Registration successful!";

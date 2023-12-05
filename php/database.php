@@ -1,7 +1,7 @@
 <?php
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$db_server='localhost';
+$db_server='p:localhost';
 $db_use="root";
 $db_pass='';
 $db_name='wallet';

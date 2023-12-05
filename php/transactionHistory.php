@@ -23,7 +23,8 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $transactions[] = $row;
     }
-} 
+} else {
+}
 
 $stmt->close();
 $conn->close();

@@ -2,6 +2,18 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+function formatNumber($number) {
+  if ($number >= 1e9) {
+    return number_format($number / 1e9, 1) . 'B';
+  } else if ($number >= 1e6) {
+    return number_format($number / 1e6, 1) . 'M';
+  } else if ($number >= 1e3) {
+    return number_format($number / 1e3, 1) . 'K';
+  } else {
+    return number_format($number);
+  }
+}
 include("database.php");
 
 if (isset($_POST['username'], $_POST['password'])) {
@@ -28,8 +40,8 @@ if (isset($_POST['username'], $_POST['password'])) {
       $_SESSION['User_name'] = $row['User_name'];
       $_SESSION['Email'] = $row['Email'];
       $_SESSION['Balance'] = $row['Balance'];
+      $_SESSION['dark_mode'] = $row['dark_mode'];
 
-      //echo "Login successful!";
       header("location: index.php");
       exit();
     } else {
@@ -56,6 +68,7 @@ if (isset($_POST['username'], $_POST['password'])) {
 
   $stmt->close();
   $conn->close();
+  
 }
 
 ?>

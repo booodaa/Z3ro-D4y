@@ -1,8 +1,20 @@
-//get-updates.php
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+
+function formatNumber($number) {
+    if ($number >= 1e9) {
+      return number_format($number / 1e9, 1) . 'B';
+    } else if ($number >= 1e6) {
+      return number_format($number / 1e6, 1) . 'M';
+    } else if ($number >= 1e3) {
+      return number_format($number / 1e3, 1) . 'K';
+    } else {
+      return number_format($number);
+    }
+  }
 // Connect to the databas
 include("database.php");
 
@@ -26,8 +38,14 @@ if (isset($_SESSION['User_ID'])) {
         $row = $result->fetch_assoc();
         
         // Return the Balance
-        echo $row['Balance'];
         $_SESSION['Balance'] = $row['Balance'];
+
+        
+        echo formatNumber($_SESSION['Balance']) . "\n";
+
+
+        echo $_SESSION['Balance']; 
+
     } else {
         // If no rows were returned, return an error message
         echo "User not found!";

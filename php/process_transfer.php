@@ -24,11 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $query = "SELECT User_ID, Balance FROM users WHERE User_ID = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param('s', $recipientId);
+        $stmt->bind_param('i', $recipientId);
         $stmt->execute();
 
         $result = $stmt->get_result();
         $recipient = $result->fetch_assoc();
+        $recipientName = $recipient['Client_name'];
 
         if ($recipient) {
             $query = "SELECT User_ID, Balance FROM users WHERE User_ID = ?";
@@ -53,68 +54,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $updateRecipientStmt->bind_param('ds', $newRecipientBalance, $recipientId);
                     $updateRecipientStmt->execute();
 
-                    $transactionQuery = "INSERT INTO transactions (Sender_ID, Receiver_ID, Amount, Transaction_Type) VALUES (?, ?, ?, 'send')";
+                    $transactionQuery = "INSERT INTO transactions (Sender_ID, Receiver_ID, Amount, Transaction_Type, seen) VALUES (?, ?, ?, 'send', 0)";
                     $transactionStmt = $conn->prepare($transactionQuery);
                     $transactionStmt->bind_param('dds', $_SESSION['User_ID'], $recipientId, $amount);
                     $transactionStmt->execute();
                     $conn->commit();
 
-                    $transactionDetails = <<<DETAILS
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Recipient ID: $recipientId</li>
-                        <li class="list-group-item">Amount Transferred: \${$amount}</li>
-                    </ul>
-                    DETAILS;
+                    $transactionDetails = '<ul>' .
+                        '<li>Recipient ID: ' . htmlspecialchars($recipientId) . '</li>' .
+                        '<li>Recipient Name: ' . $recipientName . '</li>' .
+                        '<li>Amount Transferred: $' . htmlspecialchars(number_format($amount, 2)) . '</li>' .
+                        '</ul>';
 
-                    $modalMessage = "Transaction successful!"; // You can change this message based on the error
+                    $modalMessage = "Transaction successful!";
+                    $encodedModalMessage = json_encode($modalMessage);
+
                     echo "<script type='text/javascript'>
                     window.onload = function() {
-                        // Set the contents of the modal body
-                        document.getElementById('modalBody').innerHTML = '<h5>Transaction successful!</h5>' + `{$transactionDetails}`;
-                        // Update the modal title
-                        document.getElementById('popUpModalLabel').innerText = 'Transaction Successful';
-                        // Show the modal
+                        var modalMessage = {$encodedModalMessage};
+                        document.getElementById('modalBody').innerHTML ='{$transactionDetails}';
+                        document.getElementById('popUpModalLabel').innerText = modalMessage;
                         var modal = new bootstrap.Modal(document.getElementById('popUpModal'));
                         modal.show();
                     };
-                </script>";
-        
+                    </script>";
                 } else {
 
                     $modalMessage = "Cannot transfer money to yourself!"; // You can change this message based on the error
-                echo "<script type='text/javascript'>
-              window.onload = function() {
-                  document.getElementById('modalBody').innerText = '" . $modalMessage . "';
-                  $('#popUpModal').modal('show');
-              };
-            </script>";
+                    $encodedModalMessage = json_encode($modalMessage); // Safely encode the message for JavaScript
+
+                    echo "<script type='text/javascript'>
+                        window.onload = function() {
+                            var modalMessage = {$encodedModalMessage};
+                            document.getElementById('modalBody').innerText = modalMessage;
+                            $('#popUpModal').modal('show');
+                        };
+                    </script>";
                 }
             } else {
                 $modalMessage = "Insufficient balance!"; // You can change this message based on the error
+                $encodedModalMessage = json_encode($modalMessage);
                 echo "<script type='text/javascript'>
-              window.onload = function() {
-                  document.getElementById('modalBody').innerText = '" . $modalMessage . "';
-                  $('#popUpModal').modal('show');
-              };
-            </script>";
+                        window.onload = function() {
+                            var modalMessage = {$encodedModalMessage};
+                            document.getElementById('modalBody').innerText = modalMessage;
+                            $('#popUpModal').modal('show');
+                        };
+                    </script>";
             }
         } else {
             $modalMessage = "Wrong ID for recipient!"; // You can change this message based on the error
+            $encodedModalMessage = json_encode($modalMessage);
             echo "<script type='text/javascript'>
-          window.onload = function() {
-              document.getElementById('modalBody').innerText = '" . $modalMessage . "';
-              $('#popUpModal').modal('show');
-          };
-        </script>";
+                        window.onload = function() {
+                            var modalMessage = {$encodedModalMessage};
+                            document.getElementById('modalBody').innerText = modalMessage;
+                            $('#popUpModal').modal('show');
+                        };
+                    </script>";
         }
     } catch (Exception $e) {
         $conn->rollback();
         $modalMessage = "Error"; // You can change this message based on the error
-            echo "<script type='text/javascript'>
-          window.onload = function() {
-              document.getElementById('modalBody').innerText = '" . $modalMessage . "';
-              $('#popUpModal').modal('show');
-          };
-        </script>" . $e->getMessage();
+        $encodedModalMessage = json_encode($modalMessage);
+        echo "<script type='text/javascript'>
+                        window.onload = function() {
+                            var modalMessage = {$encodedModalMessage};
+                            document.getElementById('modalBody').innerText = modalMessage;
+                            $('#popUpModal').modal('show');
+                        };
+                    </script>" . $e->getMessage();
     }
 }
