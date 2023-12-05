@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2023 at 06:16 PM
+-- Generation Time: Dec 05, 2023 at 11:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,7 +64,8 @@ CREATE TABLE `users` (
   `Password` varchar(100) NOT NULL,
   `Balance` decimal(10,2) DEFAULT NULL,
   `Join_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Client_name` varchar(255) DEFAULT NULL
+  `Client_name` varchar(255) DEFAULT NULL,
+  `dark_mode` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

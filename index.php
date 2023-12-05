@@ -2,6 +2,8 @@
 <?php
 include('php/index.php');
 include('php/transactionHistory.php');
+include('php/login.php');
+
 
 ?>
 
@@ -89,7 +91,7 @@ include('php/transactionHistory.php');
         <li class="nav-item dropdown pe-3">
 
           <div class="d-flex align-items-center">
-            
+
 
             <!-- Notification Dropdown -->
             <div class="dropdown">
@@ -272,31 +274,20 @@ include('php/transactionHistory.php');
 
             <div class="col-xxl-4 col-md-6">
 
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                </div>
-
+              <div class="card info-card revenue-card" id="balanceCard">
                 <div class="card-body">
-
                   <h5 class="card-title">
                     Balance <span>| Current</span>
                   </h5>
-
                   <div class="d-flex align-items-center">
-
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-currency-dollar"></i>
                     </div>
-
                     <div class="ps-3">
-                      <h6 id="balance"><?php echo $_SESSION['Balance']; ?></h6>
+                      <h6 id="displayBalance"></h6>
                     </div>
-
                   </div>
-
                 </div>
-
               </div>
 
             </div>
@@ -621,43 +612,69 @@ include('php/transactionHistory.php');
   </main>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
   <script src="assets/vendor/chart.js/chart.umd.js"></script>
-
   <script src="assets/vendor/echarts/echarts.min.js"></script>
-
   <script src="assets/vendor/quill/quill.min.js"></script>
-
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
   <script src="assets/js/main.js"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
   
   <script>
-    $(document).ready(function() {
-      setInterval(function() {
-        $.get('php/get-updates.php', function(data) {
-          // Split the response into an array of strings
-          var dataArray = data.split('//get-updates.php');
+  $(document).ready(function() {
+    // Function to format the raw balance with commas
+    function formatWithCommas(number) {
+      return number.toLocaleString('en-US');
+    }
 
-          // Select the first element of the array (which should be the balance)
-          var balance = dataArray[1];
-          if ($('#balance').text() != balance) {
-            $('#balance').text(balance);
-          }
-        });
-      }, 1000);
+    var currentRawBalance = <?php echo json_encode($_SESSION['Balance']); ?>; // Get the initial raw balance from PHP
+    var formattedBalance = "<?php echo formatNumber($_SESSION['Balance']); ?>"; // Get the initial formatted balance from PHP
+    var displayFormatted = true; // Initial state to display formatted balance
+
+    // Set the initial display balance
+    $('#displayBalance').text(formattedBalance);
+
+    // Add click event listener to the card
+    $('#balanceCard').on('click', function() {
+      // Toggle the display format
+      displayFormatted = !displayFormatted;
+
+      // Update the display balance based on the toggle state
+      if (displayFormatted) {
+        $('#displayBalance').text(formattedBalance);
+      } else {
+        $('#displayBalance').text(formatWithCommas(currentRawBalance));
+      }
     });
-  </script>
+
+    setInterval(function() {
+      $.get('php/get-updates.php', function(data) {
+        var dataArray = data.split('\n');
+        var newFormattedBalance = dataArray[0]; // The formatted balance from the server
+        var newRawBalance = parseFloat(dataArray[1]); // The new raw balance as a numerical value
+
+        // If new data from the server is received and it's different from the current raw balance
+        if (!isNaN(newRawBalance) && currentRawBalance !== newRawBalance) {
+          // Update the currentRawBalance and formattedBalance with the new values
+          currentRawBalance = newRawBalance;
+          formattedBalance = newFormattedBalance;
+
+          // Update the display balance based on the current display format
+          if (displayFormatted) {
+            $('#displayBalance').text(formattedBalance);
+          } else {
+            $('#displayBalance').text(formatWithCommas(currentRawBalance));
+          }
+        }
+      });
+    }, 1000);
+  });
+</script>
+
 
 
 
@@ -773,6 +790,7 @@ include('php/transactionHistory.php');
           background-color: #dc3545; /* Set badge background color to red */
           color: white; /* Set badge text color to white */
         }
+
           
       `;
         document.head.appendChild(style);

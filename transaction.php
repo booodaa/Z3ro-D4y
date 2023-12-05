@@ -83,8 +83,9 @@ include('php/transactionHistory.php');
         <li class="nav-item dropdown pe-3">
 
           <div class="d-flex align-items-center">
-            <span class="d-lg-block balance-text" style="margin-right: 20px; font-weight: bold;">Your Balance: <?php echo $_SESSION['Balance']; ?> $</span>
-
+            <span class="d-lg-block balance-text" style="margin-right: 20px; font-weight: bold;">
+              Your Balance: <?php echo number_format($_SESSION['Balance'], 2, '.', ','); ?> $
+            </span>
             <!-- Notification Dropdown -->
             <div class="dropdown">
               <a class="nav-link position-relative" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 20px;">
@@ -324,6 +325,8 @@ include('php/transactionHistory.php');
 
           <p id="errorMessage" class="text-danger"></p>
           <p>Recipient ID: <span id="recipientIdModal"></span></p>
+          <p>Recipient Name: <span id="recipientNameModal"></span></p>
+
           <p>Amount: $<span id="transferAmountModal"></span></p>
 
         </div>
@@ -436,6 +439,7 @@ include('php/transactionHistory.php');
 
       document.getElementById("recipientIdModal").innerText = recipientId;
       document.getElementById("transferAmountModal").innerText = amount;
+      
 
       $('#confirmationModal').modal('show');
     }
