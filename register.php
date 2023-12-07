@@ -34,6 +34,74 @@ include('php/register.php');
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <style>
+    #passwordChecklist {
+      list-style-type: none;
+    }
+
+    .checklist-item i {
+      width: 1em;
+      height: 1em;
+    }
+
+    .checklist-item .valid-icon {
+      color: green;
+    }
+
+    .checklist-item .invalid-icon {
+      color: red;
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const passwordInput = document.getElementById("yourPassword");
+      const passwordFeedback = document.getElementById("passwordFeedback");
+      const checklist = document.getElementById("passwordChecklist");
+      const checklistItems = checklist.getElementsByClassName("checklist-item");
+
+      passwordInput.addEventListener("input", function() {
+        const password = passwordInput.value;
+        const isValid = validatePassword(password);
+
+        if (!isValid) {
+          passwordFeedback.textContent = "Password must contain at least 8 characters, including uppercase, lowercase, digit, and special character.";
+          passwordInput.classList.add("is-invalid");
+        } else {
+          passwordFeedback.textContent = "";
+          passwordInput.classList.remove("is-invalid");
+        }
+
+        updateChecklist(password);
+      });
+
+      function validatePassword(password) {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return passwordRegex.test(password);
+      }
+
+      function updateChecklist(password) {
+        const conditions = [
+          /[a-z]/, // Lowercase letter
+          /[A-Z]/, // Uppercase letter
+          /\d/, // Digit
+          /[@$!%*?&]/ // Special character
+        ];
+
+        for (let i = 0; i < conditions.length; i++) {
+          const icon = checklistItems[i].getElementsByTagName("i")[0];
+          if (conditions[i].test(password)) {
+            icon.classList.remove("bi-x-circle-fill", "invalid-icon");
+            icon.classList.add("bi-check-circle-fill", "valid-icon");
+          } else {
+            icon.classList.remove("bi-check-circle-fill", "valid-icon");
+            icon.classList.add("bi-x-circle-fill", "invalid-icon");
+          }
+        }
+      }
+    });
+  </script>
+
 
 </head>
 
@@ -50,7 +118,7 @@ include('php/register.php');
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">Z3ro D4y</span>
+                  <span>Z3ro D4y</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -66,57 +134,69 @@ include('php/register.php');
                   <form class="row g-3 needs-validation" novalidate action="register.php" method="post">
                     <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required>
+                      <input type="text" name="name" class="form-control" id="yourName" required placeholder="Enter your name">
                       <div class="invalid-feedback">Please, enter your name!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
-
-                      <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                      <input type="email" name="email" class="form-control" id="yourEmail" placeholder="Enter your email" required>
+                      <div class="invalid-feedback">Please enter a valid Email address!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
-
                       <div class="input-group has-validation">
-
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
-
+                        <input type="text" name="username" class="form-control" id="yourUsername" placeholder="Enter a username" required>
                         <div class="invalid-feedback">Please choose a username.</div>
                       </div>
+
                     </div>
 
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <div class="input-group has-validation">
-                        <div class="input-group">
-                          <input type="password" name="password" class="form-control" id="yourPassword" required>
-                          <div class="input-group-append">
-                            <label class="btn btn-outline-secondary d-flex align-items-center justify-content-center" style="--bs-btn-border-color: transparent; width: 35px; height: 100%; padding: 0; border-radius: 0;">
-                              <input type="checkbox" onclick="showPassword();" style="display: none;">
-                              <img id="showPasswordButton" src="/website/img/icons8-show-20.png" alt="Show Password" style="max-width: 100%; max-height: 100%;">
-                            </label>
+                    <body>
+
+                      <body>
+
+                        <!-- ... (body content) ... -->
+                        <div class="col-12">
+                          <label for="yourPassword" class="form-label">Password</label>
+                          <div class="input-group has-validation">
+                            <div class="input-group">
+                              <input type="password" name="password" class="form-control" id="yourPassword" placeholder="Enter a strong password" required>
+                              <div class="input-group-append">
+                                <label class="btn btn-outline-secondary d-flex align-items-center justify-content-center" style="--bs-btn-border-color: transparent; width: 35px; height: 100%; padding: 0; border-radius: 0;">
+                                  <input type="checkbox" onclick="showPassword();" style="display: none;">
+                                  <img id="showPasswordButton" src="/website/img/icons8-show-20.png" alt="Show Password" style="max-width: 100%; max-height: 100%;">
+                                </label>
+                              </div>
+                            </div>
+                            <div id="passwordFeedback" class="invalid-feedback"></div>
                           </div>
                         </div>
-                        <div class="invalid-feedback">Please enter your password!</div>
-                      </div>
-                    </div>
 
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
-                        <div class="invalid-feedback">You must agree before submitting.</div>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="login.php">Log in</a></p>
-                    </div>
+                        <!-- Password checklist -->
+                        <div>
+                          <ul id="passwordChecklist">
+                            <li class="checklist-item"><i class="bi-x-circle-fill invalid-icon"></i> At least one lowercase letter</li>
+                            <li class="checklist-item"><i class="bi-x-circle-fill invalid-icon"></i> At least one uppercase letter</li>
+                            <li class="checklist-item"><i class="bi-x-circle-fill invalid-icon"></i> At least one digit</li>
+                            <li class="checklist-item"><i class="bi-x-circle-fill invalid-icon"></i> At least one special character</li>
+                          </ul>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="form-check">
+                            <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
+                            <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
+                            <div class="invalid-feedback">You must agree before submitting.</div>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                        </div>
+                        <div class="col-12">
+                          <p class="small mb-0">Already have an account? <a href="login.php">Log in</a></p>
+                        </div>
                   </form>
 
                 </div>
@@ -187,7 +267,7 @@ include('php/register.php');
   <!--end of  modal -->
 
 
-  
+
 </body>
 
 </html>

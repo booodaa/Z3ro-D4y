@@ -43,7 +43,7 @@ include('php/login.php');
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">Z3ro D4y</span>
+                  <span>Z3ro D4y</span>
                 </a>
               </div>
               <div class="card mb-3">

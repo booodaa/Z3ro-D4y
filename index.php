@@ -61,7 +61,7 @@ include('php/login.php');
 
       <a href="index.php" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="error">
-        <span class="d-none d-lg-block">Z3ro D4y</span>
+        <span>Z3ro D4y</span>
 
       </a>
 
